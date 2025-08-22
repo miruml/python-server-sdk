@@ -552,6 +552,14 @@ class TestMiru:
             client = Miru(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
+        # explicit environment arg requires explicitness
+        with update_env(MIRU_BASE_URL="http://localhost:5000/from/env"):
+            with pytest.raises(ValueError, match=r"you must pass base_url=None"):
+                Miru(api_key=api_key, _strict_response_validation=True, environment="production")
+
+            client = Miru(base_url=None, api_key=api_key, _strict_response_validation=True, environment="production")
+            assert str(client.base_url).startswith("https://configs.api.miruml.com/v1")
+
     @pytest.mark.parametrize(
         "client",
         [
@@ -1354,6 +1362,16 @@ class TestAsyncMiru:
         with update_env(MIRU_BASE_URL="http://localhost:5000/from/env"):
             client = AsyncMiru(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
+
+        # explicit environment arg requires explicitness
+        with update_env(MIRU_BASE_URL="http://localhost:5000/from/env"):
+            with pytest.raises(ValueError, match=r"you must pass base_url=None"):
+                AsyncMiru(api_key=api_key, _strict_response_validation=True, environment="production")
+
+            client = AsyncMiru(
+                base_url=None, api_key=api_key, _strict_response_validation=True, environment="production"
+            )
+            assert str(client.base_url).startswith("https://configs.api.miruml.com/v1")
 
     @pytest.mark.parametrize(
         "client",
