@@ -8,15 +8,15 @@ from typing_extensions import Required, Annotated, TypedDict
 
 import pytest
 
-from miru._types import NOT_GIVEN, Base64FileInput
-from miru._utils import (
+from miru_server_sdk._types import NOT_GIVEN, Base64FileInput
+from miru_server_sdk._utils import (
     PropertyInfo,
     transform as _transform,
     parse_datetime,
     async_transform as _async_transform,
 )
-from miru._compat import PYDANTIC_V2
-from miru._models import BaseModel
+from miru_server_sdk._compat import PYDANTIC_V2
+from miru_server_sdk._models import BaseModel
 
 _T = TypeVar("_T")
 
