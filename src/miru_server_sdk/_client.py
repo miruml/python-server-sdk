@@ -21,7 +21,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import devices, config_instances
+from .resources import devices, webhooks, config_instances
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import MiruError, APIStatusError
 from ._base_client import (
@@ -52,6 +52,7 @@ ENVIRONMENTS: Dict[str, str] = {
 class Miru(SyncAPIClient):
     config_instances: config_instances.ConfigInstancesResource
     devices: devices.DevicesResource
+    webhooks: webhooks.WebhooksResource
     with_raw_response: MiruWithRawResponse
     with_streaming_response: MiruWithStreamedResponse
 
@@ -150,6 +151,7 @@ class Miru(SyncAPIClient):
 
         self.config_instances = config_instances.ConfigInstancesResource(self)
         self.devices = devices.DevicesResource(self)
+        self.webhooks = webhooks.WebhooksResource(self)
         self.with_raw_response = MiruWithRawResponse(self)
         self.with_streaming_response = MiruWithStreamedResponse(self)
 
@@ -267,6 +269,7 @@ class Miru(SyncAPIClient):
 class AsyncMiru(AsyncAPIClient):
     config_instances: config_instances.AsyncConfigInstancesResource
     devices: devices.AsyncDevicesResource
+    webhooks: webhooks.AsyncWebhooksResource
     with_raw_response: AsyncMiruWithRawResponse
     with_streaming_response: AsyncMiruWithStreamedResponse
 
@@ -365,6 +368,7 @@ class AsyncMiru(AsyncAPIClient):
 
         self.config_instances = config_instances.AsyncConfigInstancesResource(self)
         self.devices = devices.AsyncDevicesResource(self)
+        self.webhooks = webhooks.AsyncWebhooksResource(self)
         self.with_raw_response = AsyncMiruWithRawResponse(self)
         self.with_streaming_response = AsyncMiruWithStreamedResponse(self)
 
