@@ -41,3 +41,14 @@ Methods:
 - <code title="patch /devices/{device_id}">client.devices.<a href="./src/miru_server_sdk/resources/devices.py">update</a>(device_id, \*\*<a href="src/miru_server_sdk/types/device_update_params.py">params</a>) -> <a href="./src/miru_server_sdk/types/base_device.py">BaseDevice</a></code>
 - <code title="get /devices">client.devices.<a href="./src/miru_server_sdk/resources/devices.py">list</a>(\*\*<a href="src/miru_server_sdk/types/device_list_params.py">params</a>) -> <a href="./src/miru_server_sdk/types/device_list_response.py">DeviceListResponse</a></code>
 - <code title="post /devices/{device_id}/activation_token">client.devices.<a href="./src/miru_server_sdk/resources/devices.py">create_activation_token</a>(device_id) -> <a href="./src/miru_server_sdk/types/device_create_activation_token_response.py">DeviceCreateActivationTokenResponse</a></code>
+
+# Webhooks
+
+Types:
+
+```python
+from miru_server_sdk.types import (
+    ConfigInstanceTargetStatusValidatedWebhookEvent,
+    UnwrapWebhookEvent,
+)
+```
