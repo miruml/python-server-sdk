@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import List, Iterable, Optional
 from typing_extensions import Literal
 
 import httpx
 
-from ..types import device_list_params, device_create_params, device_update_params
+from ..types import device_list_params, device_stage_params, device_create_params, device_update_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -21,6 +21,7 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.base_device import BaseDevice
 from ..types.device_list_response import DeviceListResponse
+from ..types.device_delete_response import DeviceDeleteResponse
 from ..types.device_create_activation_token_response import DeviceCreateActivationTokenResponse
 
 __all__ = ["DevicesResource", "AsyncDevicesResource"]
@@ -216,6 +217,39 @@ class DevicesResource(SyncAPIResource):
             cast_to=DeviceListResponse,
         )
 
+    def delete(
+        self,
+        device_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DeviceDeleteResponse:
+        """
+        Delete a device by ID
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        return self._delete(
+            f"/devices/{device_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=DeviceDeleteResponse,
+        )
+
     def create_activation_token(
         self,
         device_id: str,
@@ -247,6 +281,41 @@ class DevicesResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=DeviceCreateActivationTokenResponse,
+        )
+
+    def stage(
+        self,
+        device_id: str,
+        *,
+        config_instances: Iterable[device_stage_params.ConfigInstance],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> BaseDevice:
+        """
+        Stage a device
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        return self._post(
+            f"/devices/{device_id}/stage",
+            body=maybe_transform({"config_instances": config_instances}, device_stage_params.DeviceStageParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=BaseDevice,
         )
 
 
@@ -440,6 +509,39 @@ class AsyncDevicesResource(AsyncAPIResource):
             cast_to=DeviceListResponse,
         )
 
+    async def delete(
+        self,
+        device_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DeviceDeleteResponse:
+        """
+        Delete a device by ID
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        return await self._delete(
+            f"/devices/{device_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=DeviceDeleteResponse,
+        )
+
     async def create_activation_token(
         self,
         device_id: str,
@@ -473,6 +575,43 @@ class AsyncDevicesResource(AsyncAPIResource):
             cast_to=DeviceCreateActivationTokenResponse,
         )
 
+    async def stage(
+        self,
+        device_id: str,
+        *,
+        config_instances: Iterable[device_stage_params.ConfigInstance],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> BaseDevice:
+        """
+        Stage a device
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not device_id:
+            raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
+        return await self._post(
+            f"/devices/{device_id}/stage",
+            body=await async_maybe_transform(
+                {"config_instances": config_instances}, device_stage_params.DeviceStageParams
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=BaseDevice,
+        )
+
 
 class DevicesResourceWithRawResponse:
     def __init__(self, devices: DevicesResource) -> None:
@@ -490,8 +629,14 @@ class DevicesResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             devices.list,
         )
+        self.delete = to_raw_response_wrapper(
+            devices.delete,
+        )
         self.create_activation_token = to_raw_response_wrapper(
             devices.create_activation_token,
+        )
+        self.stage = to_raw_response_wrapper(
+            devices.stage,
         )
 
 
@@ -511,8 +656,14 @@ class AsyncDevicesResourceWithRawResponse:
         self.list = async_to_raw_response_wrapper(
             devices.list,
         )
+        self.delete = async_to_raw_response_wrapper(
+            devices.delete,
+        )
         self.create_activation_token = async_to_raw_response_wrapper(
             devices.create_activation_token,
+        )
+        self.stage = async_to_raw_response_wrapper(
+            devices.stage,
         )
 
 
@@ -532,8 +683,14 @@ class DevicesResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             devices.list,
         )
+        self.delete = to_streamed_response_wrapper(
+            devices.delete,
+        )
         self.create_activation_token = to_streamed_response_wrapper(
             devices.create_activation_token,
+        )
+        self.stage = to_streamed_response_wrapper(
+            devices.stage,
         )
 
 
@@ -553,6 +710,12 @@ class AsyncDevicesResourceWithStreamingResponse:
         self.list = async_to_streamed_response_wrapper(
             devices.list,
         )
+        self.delete = async_to_streamed_response_wrapper(
+            devices.delete,
+        )
         self.create_activation_token = async_to_streamed_response_wrapper(
             devices.create_activation_token,
+        )
+        self.stage = async_to_streamed_response_wrapper(
+            devices.stage,
         )

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0 (2025-08-24)
+
+Full Changelog: [v0.3.0...v0.4.0](https://github.com/miruml/python-server-sdk/compare/v0.3.0...v0.4.0)
+
+### Features
+
+* **api:** update via SDK Studio ([94bb30b](https://github.com/miruml/python-server-sdk/commit/94bb30b2a1a1f9bdd4e17ebe3680341d1c540cb7))
+
 ## 0.3.0 (2025-08-24)
 
 Full Changelog: [v0.2.1...v0.3.0](https://github.com/miruml/python-server-sdk/compare/v0.2.1...v0.3.0)

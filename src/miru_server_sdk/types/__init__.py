@@ -11,10 +11,12 @@ from .paginated_list import PaginatedList as PaginatedList
 from .config_instance import ConfigInstance as ConfigInstance
 from .config_schema_list import ConfigSchemaList as ConfigSchemaList
 from .device_list_params import DeviceListParams as DeviceListParams
+from .device_stage_params import DeviceStageParams as DeviceStageParams
 from .device_create_params import DeviceCreateParams as DeviceCreateParams
 from .device_list_response import DeviceListResponse as DeviceListResponse
 from .device_update_params import DeviceUpdateParams as DeviceUpdateParams
 from .unwrap_webhook_event import UnwrapWebhookEvent as UnwrapWebhookEvent
+from .device_delete_response import DeviceDeleteResponse as DeviceDeleteResponse
 from .config_instance_list_params import ConfigInstanceListParams as ConfigInstanceListParams
 from .config_instance_deploy_params import ConfigInstanceDeployParams as ConfigInstanceDeployParams
 from .config_instance_list_response import ConfigInstanceListResponse as ConfigInstanceListResponse
