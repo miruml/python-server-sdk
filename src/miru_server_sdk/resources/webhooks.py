@@ -1,11 +1,15 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# File generated from our OpenAPI spec by Stainless.
+# See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
 import json
 from typing import cast
 
-from svix.webhooks import Webhook as SvixWebhook, WebhookVerificationError as SvixWebhookVerificationError
+from svix.webhooks import (
+    Webhook as SvixWebhook,
+    WebhookVerificationError as SvixWebhookVerificationError,
+)
 
 from .._models import construct_type
 from .._resource import SyncAPIResource, AsyncAPIResource

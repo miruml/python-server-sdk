@@ -1,10 +1,12 @@
+# standard library imports
+import os
+
+# third party imports
 from miru_server_sdk import Miru
 
 
 def main() -> None:
-    client = Miru(
-        api_key="sk_4eCajhxMSnScF2YuaTZvoSxdmDtQWpVEjXDZYsiKTzh1U5tiRsiuma1cDJHQUQRVAKKnQniHsFPKcdVbSvukdHs5_1630c6",
-    )
+    client = Miru(api_key=os.getenv("MIRU_API_KEY"))
 
     event = client.webhooks.unwrap(
         payload="",
