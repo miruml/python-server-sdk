@@ -12,28 +12,31 @@
 -e file:.
 aiohappyeyeballs==2.6.1
     # via aiohttp
-aiohttp==3.12.8
+aiohttp==3.12.15
     # via httpx-aiohttp
     # via miru-server-sdk
-aiosignal==1.3.2
+aiosignal==1.4.0
     # via aiohttp
-annotated-types==0.6.0
+annotated-types==0.7.0
     # via pydantic
-anyio==4.4.0
+anyio==4.10.0
     # via httpx
     # via miru-server-sdk
 async-timeout==5.0.1
     # via aiohttp
 attrs==25.3.0
     # via aiohttp
-certifi==2023.7.22
+    # via svix
+certifi==2025.8.3
     # via httpcore
     # via httpx
-distro==1.8.0
+deprecated==1.2.18
+    # via svix
+distro==1.9.0
     # via miru-server-sdk
-exceptiongroup==1.2.2
+exceptiongroup==1.3.0
     # via anyio
-frozenlist==1.6.2
+frozenlist==1.7.0
     # via aiohttp
     # via aiosignal
 h11==0.16.0
@@ -43,30 +46,49 @@ httpcore==1.0.9
 httpx==0.28.1
     # via httpx-aiohttp
     # via miru-server-sdk
+    # via svix
 httpx-aiohttp==0.1.8
     # via miru-server-sdk
-idna==3.4
+idna==3.10
     # via anyio
     # via httpx
     # via yarl
-multidict==6.4.4
+multidict==6.6.4
     # via aiohttp
     # via yarl
-propcache==0.3.1
+propcache==0.3.2
     # via aiohttp
     # via yarl
-pydantic==2.10.3
+pydantic==2.11.7
     # via miru-server-sdk
-pydantic-core==2.27.1
+    # via svix
+pydantic-core==2.33.2
     # via pydantic
-sniffio==1.3.0
+python-dateutil==2.9.0.post0
+    # via svix
+six==1.17.0
+    # via python-dateutil
+sniffio==1.3.1
     # via anyio
     # via miru-server-sdk
-typing-extensions==4.12.2
+svix==1.74.1
+    # via miru-server-sdk
+types-deprecated==1.2.15.20250304
+    # via svix
+types-python-dateutil==2.9.0.20250822
+    # via svix
+typing-extensions==4.14.1
+    # via aiosignal
     # via anyio
+    # via exceptiongroup
     # via miru-server-sdk
     # via multidict
     # via pydantic
     # via pydantic-core
-yarl==1.20.0
+    # via typing-inspection
+typing-inspection==0.4.1
+    # via pydantic
+wrapt==1.17.3
+    # via deprecated
+yarl==1.20.1
     # via aiohttp

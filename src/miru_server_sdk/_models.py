@@ -256,7 +256,7 @@ class BaseModel(pydantic.BaseModel):
             mode: Literal["json", "python"] | str = "python",
             include: IncEx | None = None,
             exclude: IncEx | None = None,
-            by_alias: bool = False,
+            by_alias: bool | None = False,
             exclude_unset: bool = False,
             exclude_defaults: bool = False,
             exclude_none: bool = False,
@@ -264,6 +264,7 @@ class BaseModel(pydantic.BaseModel):
             warnings: bool | Literal["none", "warn", "error"] = True,
             context: dict[str, Any] | None = None,
             serialize_as_any: bool = False,
+            fallback: Callable[[Any], Any] | None = None,
         ) -> dict[str, Any]:
             """Usage docs: https://docs.pydantic.dev/2.4/concepts/serialization/#modelmodel_dump
 
@@ -285,6 +286,9 @@ class BaseModel(pydantic.BaseModel):
             Returns:
                 A dictionary representation of the model.
             """
+            if by_alias is None:
+                by_alias = False
+
             if mode not in {"json", "python"}:
                 raise ValueError("mode must be either 'json' or 'python'")
             if round_trip != False:
@@ -313,7 +317,7 @@ class BaseModel(pydantic.BaseModel):
             indent: int | None = None,
             include: IncEx | None = None,
             exclude: IncEx | None = None,
-            by_alias: bool = False,
+            by_alias: bool | None = False,
             exclude_unset: bool = False,
             exclude_defaults: bool = False,
             exclude_none: bool = False,
@@ -321,6 +325,7 @@ class BaseModel(pydantic.BaseModel):
             warnings: bool | Literal["none", "warn", "error"] = True,
             context: dict[str, Any] | None = None,
             serialize_as_any: bool = False,
+            fallback: Callable[[Any], Any] | None = None,
         ) -> str:
             """Usage docs: https://docs.pydantic.dev/2.4/concepts/serialization/#modelmodel_dump_json
 
@@ -340,6 +345,9 @@ class BaseModel(pydantic.BaseModel):
             Returns:
                 A JSON string representation of the model.
             """
+            if by_alias is None:
+                by_alias = False
+
             if round_trip != False:
                 raise ValueError("round_trip is only supported in Pydantic v2")
             if warnings != True:
