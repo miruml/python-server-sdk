@@ -65,7 +65,7 @@ class ConfigInstancesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ConfigInstance:
         """
-        Get
+        Get a config instance by ID
 
         Args:
           expand: The fields to expand in the config instance
@@ -345,7 +345,7 @@ class AsyncConfigInstancesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ConfigInstance:
         """
-        Get
+        Get a config instance by ID
 
         Args:
           expand: The fields to expand in the config instance

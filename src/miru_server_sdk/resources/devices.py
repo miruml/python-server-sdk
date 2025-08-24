@@ -57,11 +57,13 @@ class DevicesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> BaseDevice:
-        """
-        Create a new device
+        """Create a new device
 
         Args:
-          name: The name of the device
+          name: The name of the device.
+
+        Use $HOSTNAME to postpone device naming until
+              activation, where the device's hostname will be used.
 
           extra_headers: Send extra headers
 
@@ -279,11 +281,13 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> BaseDevice:
-        """
-        Create a new device
+        """Create a new device
 
         Args:
-          name: The name of the device
+          name: The name of the device.
+
+        Use $HOSTNAME to postpone device naming until
+              activation, where the device's hostname will be used.
 
           extra_headers: Send extra headers
 
