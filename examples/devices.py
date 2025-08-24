@@ -1,8 +1,7 @@
-# standard library imports
 import os
 
-# third party imports
 from dotenv import load_dotenv
+
 from miru_server_sdk import Miru
 
 # set the MIRU_API_KEY environment variable in your '.env' file
