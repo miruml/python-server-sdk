@@ -9,7 +9,8 @@ authors = [
 ]
 dependencies = [
     "httpx>=0.23.0, <1",
-    "pydantic>=1.9.0, <3",
+    # svix requires pydantic v2 so we need to pin it to v2
+    "pydantic>=2, <3",
     "typing-extensions>=4.10, <5",
     "anyio>=3.5.0, <5",
     "distro>=1.7.0, <2",
