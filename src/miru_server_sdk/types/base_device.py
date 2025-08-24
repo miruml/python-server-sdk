@@ -20,12 +20,12 @@ class BaseDevice(BaseModel):
 
     object: Literal["device"]
 
-    status: Literal["inactive", "activated", "provisioned"]
+    status: Literal["inactive", "staged", "activated", "online", "offline"]
     """The status of the device
 
     - Inactive: The miru agent has not yet been installed / authenticated
+    - Staged: The device has been staged for activation
     - Activated: The miru agent has been installed and authenticated
-    - Provisioned: The device has been optionally initialized with config instances
     """
 
     updated_at: datetime
