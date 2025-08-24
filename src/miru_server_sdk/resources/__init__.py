@@ -8,6 +8,7 @@ from .devices import (
     DevicesResourceWithStreamingResponse,
     AsyncDevicesResourceWithStreamingResponse,
 )
+from .webhooks import WebhooksResource, AsyncWebhooksResource
 from .config_instances import (
     ConfigInstancesResource,
     AsyncConfigInstancesResource,
@@ -30,4 +31,6 @@ __all__ = [
     "AsyncDevicesResourceWithRawResponse",
     "DevicesResourceWithStreamingResponse",
     "AsyncDevicesResourceWithStreamingResponse",
+    "WebhooksResource",
+    "AsyncWebhooksResource",
 ]

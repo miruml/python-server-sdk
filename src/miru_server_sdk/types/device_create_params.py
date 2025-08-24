@@ -9,4 +9,8 @@ __all__ = ["DeviceCreateParams"]
 
 class DeviceCreateParams(TypedDict, total=False):
     name: Required[str]
-    """The name of the device"""
+    """The name of the device.
+
+    Use $HOSTNAME to postpone device naming until activation, where the device's
+    hostname will be used.
+    """
