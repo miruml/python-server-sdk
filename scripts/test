@@ -57,5 +57,7 @@ export DEFER_PYDANTIC_BUILD=false
 echo "==> Running tests"
 rye run pytest "$@"
 
-echo "==> Running Pydantic v1 tests"
-rye run nox -s test-pydantic-v1 -- "$@"
+# don't run pydantic v1 tests for now, pydantic v1 is not supported by this package
+echo "==> Skipping Pydantic v1 tests"
+# echo "==> Running Pydantic v1 tests"
+# rye run nox -s test-pydantic-v1 -- "$@"

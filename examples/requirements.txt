@@ -1,0 +1,2 @@
+miru_server_sdk # always use the latest version for examples
+python-dotenv==1
