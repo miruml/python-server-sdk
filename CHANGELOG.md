@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0-beta.2 (2025-08-25)
+
+Full Changelog: [v0.3.0-beta.1...v0.3.0-beta.2](https://github.com/miruml/python-server-sdk/compare/v0.3.0-beta.1...v0.3.0-beta.2)
+
+### Features
+
+* **api:** update via SDK Studio ([7a8a1ed](https://github.com/miruml/python-server-sdk/commit/7a8a1ed569ef29bdbaa01af5e2680ccf43aca69d))
+
 ## 0.3.0-beta.1 (2025-08-25)
 
 Full Changelog: [v0.3.0-beta...v0.3.0-beta.1](https://github.com/miruml/python-server-sdk/compare/v0.3.0-beta...v0.3.0-beta.1)

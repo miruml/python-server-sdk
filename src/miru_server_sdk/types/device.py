@@ -5,10 +5,10 @@ from typing_extensions import Literal
 
 from .._models import BaseModel
 
-__all__ = ["BaseDevice"]
+__all__ = ["Device"]
 
 
-class BaseDevice(BaseModel):
+class Device(BaseModel):
     id: str
     """ID of the device"""
 

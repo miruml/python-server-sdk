@@ -19,7 +19,7 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.base_device import BaseDevice
+from ..types.device import Device
 from ..types.device_list_response import DeviceListResponse
 from ..types.device_delete_response import DeviceDeleteResponse
 from ..types.device_create_activation_token_response import DeviceCreateActivationTokenResponse
@@ -57,7 +57,7 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BaseDevice:
+    ) -> Device:
         """Create a new device
 
         Args:
@@ -80,7 +80,7 @@ class DevicesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BaseDevice,
+            cast_to=Device,
         )
 
     def retrieve(
@@ -93,7 +93,7 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BaseDevice:
+    ) -> Device:
         """
         Get a device by ID
 
@@ -113,7 +113,7 @@ class DevicesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BaseDevice,
+            cast_to=Device,
         )
 
     def update(
@@ -127,7 +127,7 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BaseDevice:
+    ) -> Device:
         """Update a device by ID
 
         Args:
@@ -152,7 +152,7 @@ class DevicesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BaseDevice,
+            cast_to=Device,
         )
 
     def list(
@@ -294,7 +294,7 @@ class DevicesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BaseDevice:
+    ) -> Device:
         """
         Stage a device
 
@@ -315,7 +315,7 @@ class DevicesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BaseDevice,
+            cast_to=Device,
         )
 
 
@@ -349,7 +349,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BaseDevice:
+    ) -> Device:
         """Create a new device
 
         Args:
@@ -372,7 +372,7 @@ class AsyncDevicesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BaseDevice,
+            cast_to=Device,
         )
 
     async def retrieve(
@@ -385,7 +385,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BaseDevice:
+    ) -> Device:
         """
         Get a device by ID
 
@@ -405,7 +405,7 @@ class AsyncDevicesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BaseDevice,
+            cast_to=Device,
         )
 
     async def update(
@@ -419,7 +419,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BaseDevice:
+    ) -> Device:
         """Update a device by ID
 
         Args:
@@ -444,7 +444,7 @@ class AsyncDevicesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BaseDevice,
+            cast_to=Device,
         )
 
     async def list(
@@ -586,7 +586,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BaseDevice:
+    ) -> Device:
         """
         Stage a device
 
@@ -609,7 +609,7 @@ class AsyncDevicesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BaseDevice,
+            cast_to=Device,
         )
 
 

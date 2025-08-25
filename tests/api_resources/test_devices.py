@@ -10,7 +10,7 @@ import pytest
 from tests.utils import assert_matches_type
 from miru_server_sdk import Miru, AsyncMiru
 from miru_server_sdk.types import (
-    BaseDevice,
+    Device,
     DeviceListResponse,
     DeviceDeleteResponse,
     DeviceCreateActivationTokenResponse,
@@ -28,7 +28,7 @@ class TestDevices:
         device = client.devices.create(
             name="Robot 1",
         )
-        assert_matches_type(BaseDevice, device, path=["response"])
+        assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -40,7 +40,7 @@ class TestDevices:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         device = response.parse()
-        assert_matches_type(BaseDevice, device, path=["response"])
+        assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -52,7 +52,7 @@ class TestDevices:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             device = response.parse()
-            assert_matches_type(BaseDevice, device, path=["response"])
+            assert_matches_type(Device, device, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -62,7 +62,7 @@ class TestDevices:
         device = client.devices.retrieve(
             "dvc_123",
         )
-        assert_matches_type(BaseDevice, device, path=["response"])
+        assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -74,7 +74,7 @@ class TestDevices:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         device = response.parse()
-        assert_matches_type(BaseDevice, device, path=["response"])
+        assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -86,7 +86,7 @@ class TestDevices:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             device = response.parse()
-            assert_matches_type(BaseDevice, device, path=["response"])
+            assert_matches_type(Device, device, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -104,7 +104,7 @@ class TestDevices:
         device = client.devices.update(
             device_id="dvc_123",
         )
-        assert_matches_type(BaseDevice, device, path=["response"])
+        assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -113,7 +113,7 @@ class TestDevices:
             device_id="dvc_123",
             name="Robot 1",
         )
-        assert_matches_type(BaseDevice, device, path=["response"])
+        assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -125,7 +125,7 @@ class TestDevices:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         device = response.parse()
-        assert_matches_type(BaseDevice, device, path=["response"])
+        assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -137,7 +137,7 @@ class TestDevices:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             device = response.parse()
-            assert_matches_type(BaseDevice, device, path=["response"])
+            assert_matches_type(Device, device, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -291,7 +291,7 @@ class TestDevices:
                 }
             ],
         )
-        assert_matches_type(BaseDevice, device, path=["response"])
+        assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -314,7 +314,7 @@ class TestDevices:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         device = response.parse()
-        assert_matches_type(BaseDevice, device, path=["response"])
+        assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -337,7 +337,7 @@ class TestDevices:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             device = response.parse()
-            assert_matches_type(BaseDevice, device, path=["response"])
+            assert_matches_type(Device, device, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -372,7 +372,7 @@ class TestAsyncDevices:
         device = await async_client.devices.create(
             name="Robot 1",
         )
-        assert_matches_type(BaseDevice, device, path=["response"])
+        assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -384,7 +384,7 @@ class TestAsyncDevices:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         device = await response.parse()
-        assert_matches_type(BaseDevice, device, path=["response"])
+        assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -396,7 +396,7 @@ class TestAsyncDevices:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             device = await response.parse()
-            assert_matches_type(BaseDevice, device, path=["response"])
+            assert_matches_type(Device, device, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -406,7 +406,7 @@ class TestAsyncDevices:
         device = await async_client.devices.retrieve(
             "dvc_123",
         )
-        assert_matches_type(BaseDevice, device, path=["response"])
+        assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -418,7 +418,7 @@ class TestAsyncDevices:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         device = await response.parse()
-        assert_matches_type(BaseDevice, device, path=["response"])
+        assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -430,7 +430,7 @@ class TestAsyncDevices:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             device = await response.parse()
-            assert_matches_type(BaseDevice, device, path=["response"])
+            assert_matches_type(Device, device, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -448,7 +448,7 @@ class TestAsyncDevices:
         device = await async_client.devices.update(
             device_id="dvc_123",
         )
-        assert_matches_type(BaseDevice, device, path=["response"])
+        assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -457,7 +457,7 @@ class TestAsyncDevices:
             device_id="dvc_123",
             name="Robot 1",
         )
-        assert_matches_type(BaseDevice, device, path=["response"])
+        assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -469,7 +469,7 @@ class TestAsyncDevices:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         device = await response.parse()
-        assert_matches_type(BaseDevice, device, path=["response"])
+        assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -481,7 +481,7 @@ class TestAsyncDevices:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             device = await response.parse()
-            assert_matches_type(BaseDevice, device, path=["response"])
+            assert_matches_type(Device, device, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -635,7 +635,7 @@ class TestAsyncDevices:
                 }
             ],
         )
-        assert_matches_type(BaseDevice, device, path=["response"])
+        assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -658,7 +658,7 @@ class TestAsyncDevices:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         device = await response.parse()
-        assert_matches_type(BaseDevice, device, path=["response"])
+        assert_matches_type(Device, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -681,7 +681,7 @@ class TestAsyncDevices:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             device = await response.parse()
-            assert_matches_type(BaseDevice, device, path=["response"])
+            assert_matches_type(Device, device, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
