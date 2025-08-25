@@ -6,8 +6,8 @@ from typing import Optional
 from datetime import datetime
 from typing_extensions import Literal
 
+from .device import Device
 from .._models import BaseModel
-from .base_device import BaseDevice
 
 __all__ = ["ConfigInstance"]
 
@@ -49,7 +49,7 @@ class ConfigInstance(BaseModel):
     created_at: datetime
     """The timestamp of when the config instance was created"""
 
-    device: Optional[BaseDevice] = None
+    device: Optional[Device] = None
 
     device_id: str
     """ID of the device which the config instance is deployed to"""

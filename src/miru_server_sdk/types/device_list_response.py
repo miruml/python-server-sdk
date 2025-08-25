@@ -2,11 +2,11 @@
 
 from typing import List, Optional
 
-from .base_device import BaseDevice
+from .device import Device
 from .paginated_list import PaginatedList
 
 __all__ = ["DeviceListResponse"]
 
 
 class DeviceListResponse(PaginatedList):
-    data: Optional[List[BaseDevice]] = None
+    data: Optional[List[Device]] = None
