@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0-beta.3 (2025-08-25)
+
+Full Changelog: [v0.3.0-beta.2...v0.3.0-beta.3](https://github.com/miruml/python-server-sdk/compare/v0.3.0-beta.2...v0.3.0-beta.3)
+
+### Refactors
+
+* webhook unwrapping to use 'Any' instead of string ([9554da7](https://github.com/miruml/python-server-sdk/commit/9554da7c959014f99d14dc3715ea80998b15815e))
+* webhook unwrapping to use 'Any' instead of string ([cb20d0f](https://github.com/miruml/python-server-sdk/commit/cb20d0f0a7c3010cd7a84f19c8fc502c19690963))
+
 ## 0.3.0-beta.2 (2025-08-25)
 
 Full Changelog: [v0.3.0-beta.1...v0.3.0-beta.2](https://github.com/miruml/python-server-sdk/compare/v0.3.0-beta.1...v0.3.0-beta.2)
