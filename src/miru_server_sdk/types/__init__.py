@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from . import config_type, config_schema, config_instance, config_instance_deploy_response
 from .. import _compat
-from .base_device import BaseDevice as BaseDevice
+from .device import Device as Device
 from .config_type import ConfigType as ConfigType
 from .config_schema import ConfigSchema as ConfigSchema
 from .paginated_list import PaginatedList as PaginatedList
