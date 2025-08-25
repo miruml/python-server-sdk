@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0 (2025-08-25)
+
+Full Changelog: [v0.3.0-beta.3...v0.3.0](https://github.com/miruml/python-server-sdk/compare/v0.3.0-beta.3...v0.3.0)
+
+### Chores
+
+* hardset the miru-server-sdk for example dependencies ([ab53767](https://github.com/miruml/python-server-sdk/commit/ab53767fbedbcda268f415fd155d9448d0c3a1a1))
+
 ## 0.3.0-beta.3 (2025-08-25)
 
 Full Changelog: [v0.3.0-beta.2...v0.3.0-beta.3](https://github.com/miruml/python-server-sdk/compare/v0.3.0-beta.2...v0.3.0-beta.3)
