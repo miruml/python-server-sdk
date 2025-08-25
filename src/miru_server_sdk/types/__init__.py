@@ -15,6 +15,7 @@ from .device_stage_params import DeviceStageParams as DeviceStageParams
 from .device_create_params import DeviceCreateParams as DeviceCreateParams
 from .device_list_response import DeviceListResponse as DeviceListResponse
 from .device_update_params import DeviceUpdateParams as DeviceUpdateParams
+from .unwrap_webhook_event import UnwrapWebhookEvent as UnwrapWebhookEvent
 from .device_delete_response import DeviceDeleteResponse as DeviceDeleteResponse
 from .config_instance_list_params import ConfigInstanceListParams as ConfigInstanceListParams
 from .config_instance_deploy_params import ConfigInstanceDeployParams as ConfigInstanceDeployParams
@@ -25,6 +26,9 @@ from .config_instance_deploy_response import ConfigInstanceDeployResponse as Con
 from .config_instance_retrieve_params import ConfigInstanceRetrieveParams as ConfigInstanceRetrieveParams
 from .device_create_activation_token_response import (
     DeviceCreateActivationTokenResponse as DeviceCreateActivationTokenResponse,
+)
+from .config_instance_target_status_validated_webhook_event import (
+    ConfigInstanceTargetStatusValidatedWebhookEvent as ConfigInstanceTargetStatusValidatedWebhookEvent,
 )
 
 # Rebuild cyclical models only after all modules are imported.

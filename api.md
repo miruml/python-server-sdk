@@ -50,5 +50,8 @@ Methods:
 Types:
 
 ```python
-from miru_server_sdk.types import UnwrapWebhookEvent
+from miru_server_sdk.types import (
+    ConfigInstanceTargetStatusValidatedWebhookEvent,
+    UnwrapWebhookEvent,
+)
 ```
