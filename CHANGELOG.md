@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.2 (2025-08-27)
+
+Full Changelog: [v0.3.1...v0.3.2](https://github.com/miruml/python-server-sdk/compare/v0.3.1...v0.3.2)
+
+### Bug Fixes
+
+* avoid newer type syntax ([bb04964](https://github.com/miruml/python-server-sdk/commit/bb049641ba3facb89a26fdaa0bdc815d7eaa2f3f))
+
+
+### Chores
+
+* **internal:** change ci workflow machines ([a939ac4](https://github.com/miruml/python-server-sdk/commit/a939ac43507104339efc9945767e3cfed5889e3d))
+
 ## 0.3.1 (2025-08-25)
 
 Full Changelog: [v0.3.0...v0.3.1](https://github.com/miruml/python-server-sdk/compare/v0.3.0...v0.3.1)
