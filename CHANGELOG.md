@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.3.2 (2025-09-02)
+
+Full Changelog: [v0.3.1...v0.3.2](https://github.com/miruml/python-server-sdk/compare/v0.3.1...v0.3.2)
+
+### Features
+
+* **api:** update via SDK Studio ([deb3615](https://github.com/miruml/python-server-sdk/commit/deb361539226c1c44aa0504b40c837df9dd0fdee))
+
+
+### Bug Fixes
+
+* avoid newer type syntax ([bb04964](https://github.com/miruml/python-server-sdk/commit/bb049641ba3facb89a26fdaa0bdc815d7eaa2f3f))
+
+
+### Chores
+
+* **internal:** add Sequence related utils ([d536ef6](https://github.com/miruml/python-server-sdk/commit/d536ef6d0da7ca4cc3a1f81380516c45216be88f))
+* **internal:** change ci workflow machines ([a939ac4](https://github.com/miruml/python-server-sdk/commit/a939ac43507104339efc9945767e3cfed5889e3d))
+* **internal:** update pyright exclude list ([24f8ab2](https://github.com/miruml/python-server-sdk/commit/24f8ab2c020cb1a470f799d7f51f5b895ff2bf2c))
+
 ## 0.3.1 (2025-08-25)
 
 Full Changelog: [v0.3.0...v0.3.1](https://github.com/miruml/python-server-sdk/compare/v0.3.0...v0.3.1)
