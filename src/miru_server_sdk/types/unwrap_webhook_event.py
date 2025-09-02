@@ -84,6 +84,7 @@ class Data(BaseModel):
 
 class UnwrapWebhookEvent(BaseModel):
     data: Data
+    """The data associated with the event"""
 
     object: Literal["event"]
     """The object that occurred"""
@@ -92,3 +93,4 @@ class UnwrapWebhookEvent(BaseModel):
     """The timestamp of the event"""
 
     type: Literal["config_instance.target_status.validated"]
+    """The type of event"""

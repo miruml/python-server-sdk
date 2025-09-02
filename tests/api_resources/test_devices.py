@@ -236,7 +236,16 @@ class TestDevices:
     @parametrize
     def test_method_create_activation_token(self, client: Miru) -> None:
         device = client.devices.create_activation_token(
-            "dvc_123",
+            device_id="dvc_123",
+        )
+        assert_matches_type(DeviceCreateActivationTokenResponse, device, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_create_activation_token_with_all_params(self, client: Miru) -> None:
+        device = client.devices.create_activation_token(
+            device_id="dvc_123",
+            allow_reactivation=False,
         )
         assert_matches_type(DeviceCreateActivationTokenResponse, device, path=["response"])
 
@@ -244,7 +253,7 @@ class TestDevices:
     @parametrize
     def test_raw_response_create_activation_token(self, client: Miru) -> None:
         response = client.devices.with_raw_response.create_activation_token(
-            "dvc_123",
+            device_id="dvc_123",
         )
 
         assert response.is_closed is True
@@ -256,7 +265,7 @@ class TestDevices:
     @parametrize
     def test_streaming_response_create_activation_token(self, client: Miru) -> None:
         with client.devices.with_streaming_response.create_activation_token(
-            "dvc_123",
+            device_id="dvc_123",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -271,7 +280,7 @@ class TestDevices:
     def test_path_params_create_activation_token(self, client: Miru) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             client.devices.with_raw_response.create_activation_token(
-                "",
+                device_id="",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -580,7 +589,16 @@ class TestAsyncDevices:
     @parametrize
     async def test_method_create_activation_token(self, async_client: AsyncMiru) -> None:
         device = await async_client.devices.create_activation_token(
-            "dvc_123",
+            device_id="dvc_123",
+        )
+        assert_matches_type(DeviceCreateActivationTokenResponse, device, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_create_activation_token_with_all_params(self, async_client: AsyncMiru) -> None:
+        device = await async_client.devices.create_activation_token(
+            device_id="dvc_123",
+            allow_reactivation=False,
         )
         assert_matches_type(DeviceCreateActivationTokenResponse, device, path=["response"])
 
@@ -588,7 +606,7 @@ class TestAsyncDevices:
     @parametrize
     async def test_raw_response_create_activation_token(self, async_client: AsyncMiru) -> None:
         response = await async_client.devices.with_raw_response.create_activation_token(
-            "dvc_123",
+            device_id="dvc_123",
         )
 
         assert response.is_closed is True
@@ -600,7 +618,7 @@ class TestAsyncDevices:
     @parametrize
     async def test_streaming_response_create_activation_token(self, async_client: AsyncMiru) -> None:
         async with async_client.devices.with_streaming_response.create_activation_token(
-            "dvc_123",
+            device_id="dvc_123",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -615,7 +633,7 @@ class TestAsyncDevices:
     async def test_path_params_create_activation_token(self, async_client: AsyncMiru) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             await async_client.devices.with_raw_response.create_activation_token(
-                "",
+                device_id="",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")

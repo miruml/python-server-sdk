@@ -24,6 +24,9 @@ from .config_instance_reject_params import ConfigInstanceRejectParams as ConfigI
 from .config_instance_approve_params import ConfigInstanceApproveParams as ConfigInstanceApproveParams
 from .config_instance_deploy_response import ConfigInstanceDeployResponse as ConfigInstanceDeployResponse
 from .config_instance_retrieve_params import ConfigInstanceRetrieveParams as ConfigInstanceRetrieveParams
+from .device_create_activation_token_params import (
+    DeviceCreateActivationTokenParams as DeviceCreateActivationTokenParams,
+)
 from .device_create_activation_token_response import (
     DeviceCreateActivationTokenResponse as DeviceCreateActivationTokenResponse,
 )
