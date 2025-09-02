@@ -258,7 +258,7 @@ class DevicesResource(SyncAPIResource):
         self,
         device_id: str,
         *,
-        allow_reactivation: Optional[bool] | NotGiven = NOT_GIVEN,
+        allow_reactivation: bool | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -559,7 +559,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         self,
         device_id: str,
         *,
-        allow_reactivation: Optional[bool] | NotGiven = NOT_GIVEN,
+        allow_reactivation: bool | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
