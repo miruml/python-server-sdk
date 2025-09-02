@@ -7,7 +7,13 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import device_list_params, device_stage_params, device_create_params, device_update_params
+from ..types import (
+    device_list_params,
+    device_stage_params,
+    device_create_params,
+    device_update_params,
+    device_create_activation_token_params,
+)
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -58,13 +64,11 @@ class DevicesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Device:
-        """Create a new device
+        """
+        Create a new device
 
         Args:
           name: The name of the device.
-
-        Use $HOSTNAME to postpone device naming until
-              activation, where the device's hostname will be used.
 
           extra_headers: Send extra headers
 
@@ -254,6 +258,7 @@ class DevicesResource(SyncAPIResource):
         self,
         device_id: str,
         *,
+        allow_reactivation: Optional[bool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -265,6 +270,9 @@ class DevicesResource(SyncAPIResource):
         Create a new device activation token
 
         Args:
+          allow_reactivation: Whether this token can reactivate already activated devices. If false, the token
+              is unable to activate devices which are already activated.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -277,6 +285,10 @@ class DevicesResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
         return self._post(
             f"/devices/{device_id}/activation_token",
+            body=maybe_transform(
+                {"allow_reactivation": allow_reactivation},
+                device_create_activation_token_params.DeviceCreateActivationTokenParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -299,6 +311,9 @@ class DevicesResource(SyncAPIResource):
         Stage a device
 
         Args:
+          config_instances: The config instances to stage on the device. These config instances will be
+              deployed to the device as soon as it is activated.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -350,13 +365,11 @@ class AsyncDevicesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Device:
-        """Create a new device
+        """
+        Create a new device
 
         Args:
           name: The name of the device.
-
-        Use $HOSTNAME to postpone device naming until
-              activation, where the device's hostname will be used.
 
           extra_headers: Send extra headers
 
@@ -546,6 +559,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         self,
         device_id: str,
         *,
+        allow_reactivation: Optional[bool] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -557,6 +571,9 @@ class AsyncDevicesResource(AsyncAPIResource):
         Create a new device activation token
 
         Args:
+          allow_reactivation: Whether this token can reactivate already activated devices. If false, the token
+              is unable to activate devices which are already activated.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -569,6 +586,10 @@ class AsyncDevicesResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `device_id` but received {device_id!r}")
         return await self._post(
             f"/devices/{device_id}/activation_token",
+            body=await async_maybe_transform(
+                {"allow_reactivation": allow_reactivation},
+                device_create_activation_token_params.DeviceCreateActivationTokenParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -591,6 +612,9 @@ class AsyncDevicesResource(AsyncAPIResource):
         Stage a device
 
         Args:
+          config_instances: The config instances to stage on the device. These config instances will be
+              deployed to the device as soon as it is activated.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
