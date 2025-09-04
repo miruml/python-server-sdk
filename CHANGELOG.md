@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.0 (2025-09-04)
+
+Full Changelog: [v0.3.3...v0.4.0](https://github.com/miruml/python-server-sdk/compare/v0.3.3...v0.4.0)
+
+### Features
+
+* improve future compat with pydantic v3 ([a3a32e1](https://github.com/miruml/python-server-sdk/commit/a3a32e14ef19193f13cb9813b0abc30bf5d3fe6c))
+* **types:** replace List[str] with SequenceNotStr in params ([f4d8c81](https://github.com/miruml/python-server-sdk/commit/f4d8c81885f973ab0cf6b2c745396f009c4f3f4f))
+
 ## 0.3.3 (2025-09-02)
 
 Full Changelog: [v0.3.2...v0.3.3](https://github.com/miruml/python-server-sdk/compare/v0.3.2...v0.3.3)
