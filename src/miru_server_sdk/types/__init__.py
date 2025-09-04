@@ -38,13 +38,13 @@ from .config_instance_target_status_validated_webhook_event import (
 # This ensures that, when building the deferred (due to cyclical references) model schema,
 # Pydantic can resolve the necessary references.
 # See: https://github.com/pydantic/pydantic/issues/11250 for more context.
-if _compat.PYDANTIC_V2:
-    config_instance.ConfigInstance.model_rebuild(_parent_namespace_depth=0)
-    config_schema.ConfigSchema.model_rebuild(_parent_namespace_depth=0)
-    config_type.ConfigType.model_rebuild(_parent_namespace_depth=0)
-    config_instance_deploy_response.ConfigInstanceDeployResponse.model_rebuild(_parent_namespace_depth=0)
-else:
+if _compat.PYDANTIC_V1:
     config_instance.ConfigInstance.update_forward_refs()  # type: ignore
     config_schema.ConfigSchema.update_forward_refs()  # type: ignore
     config_type.ConfigType.update_forward_refs()  # type: ignore
     config_instance_deploy_response.ConfigInstanceDeployResponse.update_forward_refs()  # type: ignore
+else:
+    config_instance.ConfigInstance.model_rebuild(_parent_namespace_depth=0)
+    config_schema.ConfigSchema.model_rebuild(_parent_namespace_depth=0)
+    config_type.ConfigType.model_rebuild(_parent_namespace_depth=0)
+    config_instance_deploy_response.ConfigInstanceDeployResponse.model_rebuild(_parent_namespace_depth=0)

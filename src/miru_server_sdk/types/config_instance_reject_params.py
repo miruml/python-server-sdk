@@ -5,6 +5,8 @@ from __future__ import annotations
 from typing import List, Iterable
 from typing_extensions import Literal, Required, TypedDict
 
+from .._types import SequenceNotStr
+
 __all__ = ["ConfigInstanceRejectParams", "Error"]
 
 
@@ -22,4 +24,4 @@ class Error(TypedDict, total=False):
     message: Required[str]
     """A detailed message explaining why the parameter is causing the error"""
 
-    parameter_path: Required[List[str]]
+    parameter_path: Required[SequenceNotStr[str]]
