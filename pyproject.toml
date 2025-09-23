@@ -1,6 +1,6 @@
 [project]
-name = "miru_server"
-version = "0.0.1"
+name = "miru_server_sdk"
+version = "0.4.0"
 description = "The official Python library for the miru-server API"
 dynamic = ["readme"]
 license = "MIT"
@@ -35,8 +35,8 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/stainless-sdks/miru-server-python"
-Repository = "https://github.com/stainless-sdks/miru-server-python"
+Homepage = "https://github.com/miruml/python-server-sdk"
+Repository = "https://github.com/miruml/python-server-sdk"
 
 [project.optional-dependencies]
 aiohttp = ["aiohttp", "httpx_aiohttp>=0.1.8"]
@@ -124,7 +124,7 @@ path = "README.md"
 [[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
 # replace relative links with absolute links
 pattern = '\[(.+?)\]\(((?!https?://)\S+?)\)'
-replacement = '[\1](https://github.com/stainless-sdks/miru-server-python/tree/main/\g<2>)'
+replacement = '[\1](https://github.com/miruml/python-server-sdk/tree/main/\g<2>)'
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

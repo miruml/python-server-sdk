@@ -39,7 +39,7 @@ class DevicesResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/miru-server-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/miruml/python-server-sdk#accessing-raw-response-data-eg-headers
         """
         return DevicesResourceWithRawResponse(self)
 
@@ -48,7 +48,7 @@ class DevicesResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/miru-server-python#with_streaming_response
+        For more information, see https://www.github.com/miruml/python-server-sdk#with_streaming_response
         """
         return DevicesResourceWithStreamingResponse(self)
 
@@ -310,7 +310,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/miru-server-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/miruml/python-server-sdk#accessing-raw-response-data-eg-headers
         """
         return AsyncDevicesResourceWithRawResponse(self)
 
@@ -319,7 +319,7 @@ class AsyncDevicesResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/miru-server-python#with_streaming_response
+        For more information, see https://www.github.com/miruml/python-server-sdk#with_streaming_response
         """
         return AsyncDevicesResourceWithStreamingResponse(self)
 
