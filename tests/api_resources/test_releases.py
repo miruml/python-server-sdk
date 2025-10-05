@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from miru import Miru, AsyncMiru
-from miru.types import Release, ReleaseListResponse
 from tests.utils import assert_matches_type
+from miru_server_sdk import Miru, AsyncMiru
+from miru_server_sdk.types import Release, ReleaseListResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 

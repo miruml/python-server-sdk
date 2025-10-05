@@ -26,7 +26,7 @@ The full API of this library can be found in [api.md](api.md).
 
 ```python
 import os
-from miru import Miru
+from miru_server_sdk import Miru
 
 client = Miru(
     api_key=os.environ.get("MIRU_SERVER_API_KEY"),  # This is the default and can be omitted
@@ -50,7 +50,7 @@ Simply import `AsyncMiru` instead of `Miru` and use `await` with each API call:
 ```python
 import os
 import asyncio
-from miru import AsyncMiru
+from miru_server_sdk import AsyncMiru
 
 client = AsyncMiru(
     api_key=os.environ.get("MIRU_SERVER_API_KEY"),  # This is the default and can be omitted
@@ -84,8 +84,8 @@ Then you can enable it by instantiating the client with `http_client=DefaultAioH
 
 ```python
 import asyncio
-from miru import DefaultAioHttpClient
-from miru import AsyncMiru
+from miru_server_sdk import DefaultAioHttpClient
+from miru_server_sdk import AsyncMiru
 
 
 async def main() -> None:
@@ -113,16 +113,16 @@ Typed requests and responses provide autocomplete and documentation within your 
 
 ## Handling errors
 
-When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `miru.APIConnectionError` is raised.
+When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `miru_server_sdk.APIConnectionError` is raised.
 
 When the API returns a non-success status code (that is, 4xx or 5xx
-response), a subclass of `miru.APIStatusError` is raised, containing `status_code` and `response` properties.
+response), a subclass of `miru_server_sdk.APIStatusError` is raised, containing `status_code` and `response` properties.
 
-All errors inherit from `miru.APIError`.
+All errors inherit from `miru_server_sdk.APIError`.
 
 ```python
-import miru
-from miru import Miru
+import miru_server_sdk
+from miru_server_sdk import Miru
 
 client = Miru()
 
@@ -130,12 +130,12 @@ try:
     client.config_instances.retrieve(
         config_instance_id="cfg_inst_123",
     )
-except miru.APIConnectionError as e:
+except miru_server_sdk.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
-except miru.RateLimitError as e:
+except miru_server_sdk.RateLimitError as e:
     print("A 429 status code was received; we should back off a bit.")
-except miru.APIStatusError as e:
+except miru_server_sdk.APIStatusError as e:
     print("Another non-200-range status code was received")
     print(e.status_code)
     print(e.response)
@@ -163,7 +163,7 @@ Connection errors (for example, due to a network connectivity problem), 408 Requ
 You can use the `max_retries` option to configure or disable retry settings:
 
 ```python
-from miru import Miru
+from miru_server_sdk import Miru
 
 # Configure the default for all requests:
 client = Miru(
@@ -183,7 +183,7 @@ By default requests time out after 1 minute. You can configure this with a `time
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/timeouts/#fine-tuning-the-configuration) object:
 
 ```python
-from miru import Miru
+from miru_server_sdk import Miru
 
 # Configure the default for all requests:
 client = Miru(
@@ -237,7 +237,7 @@ if response.my_field is None:
 The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
 
 ```py
-from miru import Miru
+from miru_server_sdk import Miru
 
 client = Miru()
 response = client.config_instances.with_raw_response.retrieve(
@@ -249,9 +249,9 @@ config_instance = response.parse()  # get the object that `config_instances.retr
 print(config_instance.id)
 ```
 
-These methods return an [`APIResponse`](https://github.com/miruml/python-server-sdk/tree/main/src/miru/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/miruml/python-server-sdk/tree/main/src/miru_server_sdk/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/miruml/python-server-sdk/tree/main/src/miru/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/miruml/python-server-sdk/tree/main/src/miru_server_sdk/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 
@@ -315,7 +315,7 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 
 ```python
 import httpx
-from miru import Miru, DefaultHttpxClient
+from miru_server_sdk import Miru, DefaultHttpxClient
 
 client = Miru(
     # Or use the `MIRU_BASE_URL` env var
@@ -338,7 +338,7 @@ client.with_options(http_client=DefaultHttpxClient(...))
 By default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.
 
 ```py
-from miru import Miru
+from miru_server_sdk import Miru
 
 with Miru() as client:
   # make requests here
@@ -366,8 +366,8 @@ If you've upgraded to the latest version but aren't seeing any new features you 
 You can determine the version that is being used at runtime with:
 
 ```py
-import miru
-print(miru.__version__)
+import miru_server_sdk
+print(miru_server_sdk.__version__)
 ```
 
 ## Requirements
