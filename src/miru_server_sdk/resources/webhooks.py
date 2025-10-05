@@ -2,8 +2,7 @@
 
 from __future__ import annotations
 
-import json
-from typing import cast
+from typing import cast, Any
 
 from .._models import construct_type
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -13,22 +12,22 @@ __all__ = ["WebhooksResource", "AsyncWebhooksResource"]
 
 
 class WebhooksResource(SyncAPIResource):
-    def unwrap(self, payload: str) -> UnwrapWebhookEvent:
+    def unwrap(self, payload: Any) -> UnwrapWebhookEvent:
         return cast(
             UnwrapWebhookEvent,
             construct_type(
                 type_=UnwrapWebhookEvent,
-                value=json.loads(payload),
+                value=payload,
             ),
         )
 
 
 class AsyncWebhooksResource(AsyncAPIResource):
-    def unwrap(self, payload: str) -> UnwrapWebhookEvent:
+    def unwrap(self, payload: Any) -> UnwrapWebhookEvent:
         return cast(
             UnwrapWebhookEvent,
             construct_type(
                 type_=UnwrapWebhookEvent,
-                value=json.loads(payload),
+                value=payload,
             ),
         )
