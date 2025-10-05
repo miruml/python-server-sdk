@@ -21,7 +21,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import devices, releases, deployments, config_instances
+from .resources import devices, releases, webhooks, deployments, config_instances
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import MiruError, APIStatusError
 from ._base_client import (
@@ -38,6 +38,7 @@ class Miru(SyncAPIClient):
     deployments: deployments.DeploymentsResource
     devices: devices.DevicesResource
     releases: releases.ReleasesResource
+    webhooks: webhooks.WebhooksResource
     with_raw_response: MiruWithRawResponse
     with_streaming_response: MiruWithStreamedResponse
 
@@ -114,6 +115,7 @@ class Miru(SyncAPIClient):
         self.deployments = deployments.DeploymentsResource(self)
         self.devices = devices.DevicesResource(self)
         self.releases = releases.ReleasesResource(self)
+        self.webhooks = webhooks.WebhooksResource(self)
         self.with_raw_response = MiruWithRawResponse(self)
         self.with_streaming_response = MiruWithStreamedResponse(self)
 
@@ -231,6 +233,7 @@ class AsyncMiru(AsyncAPIClient):
     deployments: deployments.AsyncDeploymentsResource
     devices: devices.AsyncDevicesResource
     releases: releases.AsyncReleasesResource
+    webhooks: webhooks.AsyncWebhooksResource
     with_raw_response: AsyncMiruWithRawResponse
     with_streaming_response: AsyncMiruWithStreamedResponse
 
@@ -307,6 +310,7 @@ class AsyncMiru(AsyncAPIClient):
         self.deployments = deployments.AsyncDeploymentsResource(self)
         self.devices = devices.AsyncDevicesResource(self)
         self.releases = releases.AsyncReleasesResource(self)
+        self.webhooks = webhooks.AsyncWebhooksResource(self)
         self.with_raw_response = AsyncMiruWithRawResponse(self)
         self.with_streaming_response = AsyncMiruWithStreamedResponse(self)
 

@@ -17,9 +17,7 @@ class DeploymentValidateParams(TypedDict, total=False):
     is_valid: Required[bool]
     """Whether the deployment is valid.
 
-    If invalid, the deployment is immediately archived and marked as 'failed'. If
-    valid, the deployment continues to its desired target status (i.e. 'pending',
-    'approved', or 'deployed').
+    If invalid, the deployment is immediately archived and marked as 'failed'.
     """
 
     message: Required[str]

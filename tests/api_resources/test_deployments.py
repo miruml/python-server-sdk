@@ -25,7 +25,7 @@ class TestDeployments:
     @parametrize
     def test_method_create(self, client: Miru) -> None:
         deployment = client.deployments.create(
-            description="Update safety mode to 'manual'",
+            description="Deployment for the motion control config instance",
             device_id="dvc_123",
             new_config_instances=[
                 {
@@ -47,7 +47,7 @@ class TestDeployments:
     @parametrize
     def test_method_create_with_all_params(self, client: Miru) -> None:
         deployment = client.deployments.create(
-            description="Update safety mode to 'manual'",
+            description="Deployment for the motion control config instance",
             device_id="dvc_123",
             new_config_instances=[
                 {
@@ -71,7 +71,7 @@ class TestDeployments:
     @parametrize
     def test_raw_response_create(self, client: Miru) -> None:
         response = client.deployments.with_raw_response.create(
-            description="Update safety mode to 'manual'",
+            description="Deployment for the motion control config instance",
             device_id="dvc_123",
             new_config_instances=[
                 {
@@ -97,7 +97,7 @@ class TestDeployments:
     @parametrize
     def test_streaming_response_create(self, client: Miru) -> None:
         with client.deployments.with_streaming_response.create(
-            description="Update safety mode to 'manual'",
+            description="Deployment for the motion control config instance",
             device_id="dvc_123",
             new_config_instances=[
                 {
@@ -325,7 +325,7 @@ class TestAsyncDeployments:
     @parametrize
     async def test_method_create(self, async_client: AsyncMiru) -> None:
         deployment = await async_client.deployments.create(
-            description="Update safety mode to 'manual'",
+            description="Deployment for the motion control config instance",
             device_id="dvc_123",
             new_config_instances=[
                 {
@@ -347,7 +347,7 @@ class TestAsyncDeployments:
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncMiru) -> None:
         deployment = await async_client.deployments.create(
-            description="Update safety mode to 'manual'",
+            description="Deployment for the motion control config instance",
             device_id="dvc_123",
             new_config_instances=[
                 {
@@ -371,7 +371,7 @@ class TestAsyncDeployments:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncMiru) -> None:
         response = await async_client.deployments.with_raw_response.create(
-            description="Update safety mode to 'manual'",
+            description="Deployment for the motion control config instance",
             device_id="dvc_123",
             new_config_instances=[
                 {
@@ -397,7 +397,7 @@ class TestAsyncDeployments:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncMiru) -> None:
         async with async_client.deployments.with_streaming_response.create(
-            description="Update safety mode to 'manual'",
+            description="Deployment for the motion control config instance",
             device_id="dvc_123",
             new_config_instances=[
                 {
