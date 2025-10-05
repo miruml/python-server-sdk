@@ -8,7 +8,7 @@ from datetime import date, datetime, timezone, timedelta
 
 import pytest
 
-from miru_server._utils import parse_date, parse_datetime
+from miru._utils import parse_date, parse_datetime
 
 
 def create_tz(minutes: int) -> timezone:

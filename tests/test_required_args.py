@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from miru_server._utils import required_args
+from miru._utils import required_args
 
 
 def test_too_many_positional_params() -> None:
