@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.1-beta.1 (2025-10-05)
+
+Full Changelog: [v0.4.1-beta.0...v0.4.1-beta.1](https://github.com/miruml/python-server-sdk/compare/v0.4.1-beta.0...v0.4.1-beta.1)
+
+### Features
+
+* **api:** manual updates ([1f24c3f](https://github.com/miruml/python-server-sdk/commit/1f24c3f238e13344e158a909a8444fe6a02534ec))
+* **api:** manual updates ([616466d](https://github.com/miruml/python-server-sdk/commit/616466d196871cb65ad48ecccf292be3596043b1))
+
 ## 0.4.1-beta.0 (2025-10-05)
 
 Full Changelog: [v0.4.0...v0.4.1-beta.0](https://github.com/miruml/python-server-sdk/compare/v0.4.0...v0.4.1-beta.0)
