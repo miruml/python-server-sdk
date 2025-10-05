@@ -1,6 +1,6 @@
 [project]
 name = "miru_server_sdk"
-version = "0.4.1-beta.2"
+version = "0.4.1-beta.3"
 description = "The official Python library for the miru API"
 dynamic = ["readme"]
 license = "MIT"
