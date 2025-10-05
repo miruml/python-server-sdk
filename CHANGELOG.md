@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.1-beta.3 (2025-10-05)
+
+Full Changelog: [v0.4.1-beta.2...v0.4.1-beta.3](https://github.com/miruml/python-server-sdk/compare/v0.4.1-beta.2...v0.4.1-beta.3)
+
+### Bug Fixes
+
+* **api:** expansions to use bracket format ([0344365](https://github.com/miruml/python-server-sdk/commit/03443654ab20a279be8594224358a15b746cfd01))
+
 ## 0.4.1-beta.2 (2025-10-05)
 
 Full Changelog: [v0.4.1-beta.1...v0.4.1-beta.2](https://github.com/miruml/python-server-sdk/compare/v0.4.1-beta.1...v0.4.1-beta.2)
