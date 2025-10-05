@@ -1,11 +1,11 @@
 [project]
 name = "miru_server_sdk"
-version = "0.4.1-beta.0"
+version = "0.4.1-beta.1"
 description = "The official Python library for the miru API"
 dynamic = ["readme"]
 license = "MIT"
 authors = [
-{ name = "Miru", email = "" },
+{ name = "Miru", email = "ben@miruml.com" },
 ]
 dependencies = [
     "httpx>=0.23.0, <1",

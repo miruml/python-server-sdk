@@ -16,6 +16,7 @@ from .releases import (
     ReleasesResourceWithStreamingResponse,
     AsyncReleasesResourceWithStreamingResponse,
 )
+from .webhooks import WebhooksResource, AsyncWebhooksResource
 from .deployments import (
     DeploymentsResource,
     AsyncDeploymentsResource,
@@ -58,4 +59,6 @@ __all__ = [
     "AsyncReleasesResourceWithRawResponse",
     "ReleasesResourceWithStreamingResponse",
     "AsyncReleasesResourceWithStreamingResponse",
+    "WebhooksResource",
+    "AsyncWebhooksResource",
 ]

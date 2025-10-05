@@ -79,10 +79,10 @@ class DeploymentsResource(SyncAPIResource):
           new_config_instances: The _new_ config instances to create for this deployment. A deployment must have
               exactly one config instance for each config schema in the deployment's release.
               If less config instances are provided than the number of schemas, the deployment
-              will 'transfer' config instances its patch source. Archived config instances (in
-              patch sources) cannot be transferred, they must be created anew.
+              will 'transfer' config instances from the deployment it is patched from.
+              Archived config instances cannot be transferred.
 
-          release_id: The ID of the release which this deployment adheres to.
+          release_id: The release ID which this deployment adheres to.
 
           target_status: Desired state of the deployment.
 
@@ -94,15 +94,11 @@ class DeploymentsResource(SyncAPIResource):
                 release is the device's current release.
 
               If custom validation is enabled for the release, the deployment must pass
-              validation before fulfilling the target status. Otherwise, the deployment fails
-              and current deployments are unaffected.
+              validation before fulfilling the target status.
 
           expand: The fields to expand in the deployment.
 
-          patch_source_id: The ID of the deployment that this deployment was (optionally) patched from. If
-              no patch source is provided, the deployment is considered to be 'new'-- it is
-              not a delta from an existing deployment. If a patch source is provided, the
-              deployment is considered to be a delta of changes from the patch source.
+          patch_source_id: The ID of the deployment that this deployment was patched from.
 
           extra_headers: Send extra headers
 
@@ -275,8 +271,7 @@ class DeploymentsResource(SyncAPIResource):
           config_instances: The config instance errors for this deployment.
 
           is_valid: Whether the deployment is valid. If invalid, the deployment is immediately
-              archived and marked as 'failed'. If valid, the deployment continues to its
-              desired target status (i.e. 'pending', 'approved', or 'deployed').
+              archived and marked as 'failed'.
 
           message: A message displayed on the deployment level in the UI.
 
@@ -355,10 +350,10 @@ class AsyncDeploymentsResource(AsyncAPIResource):
           new_config_instances: The _new_ config instances to create for this deployment. A deployment must have
               exactly one config instance for each config schema in the deployment's release.
               If less config instances are provided than the number of schemas, the deployment
-              will 'transfer' config instances its patch source. Archived config instances (in
-              patch sources) cannot be transferred, they must be created anew.
+              will 'transfer' config instances from the deployment it is patched from.
+              Archived config instances cannot be transferred.
 
-          release_id: The ID of the release which this deployment adheres to.
+          release_id: The release ID which this deployment adheres to.
 
           target_status: Desired state of the deployment.
 
@@ -370,15 +365,11 @@ class AsyncDeploymentsResource(AsyncAPIResource):
                 release is the device's current release.
 
               If custom validation is enabled for the release, the deployment must pass
-              validation before fulfilling the target status. Otherwise, the deployment fails
-              and current deployments are unaffected.
+              validation before fulfilling the target status.
 
           expand: The fields to expand in the deployment.
 
-          patch_source_id: The ID of the deployment that this deployment was (optionally) patched from. If
-              no patch source is provided, the deployment is considered to be 'new'-- it is
-              not a delta from an existing deployment. If a patch source is provided, the
-              deployment is considered to be a delta of changes from the patch source.
+          patch_source_id: The ID of the deployment that this deployment was patched from.
 
           extra_headers: Send extra headers
 
@@ -553,8 +544,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
           config_instances: The config instance errors for this deployment.
 
           is_valid: Whether the deployment is valid. If invalid, the deployment is immediately
-              archived and marked as 'failed'. If valid, the deployment continues to its
-              desired target status (i.e. 'pending', 'approved', or 'deployed').
+              archived and marked as 'failed'.
 
           message: A message displayed on the deployment level in the UI.
 
