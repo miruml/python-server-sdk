@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from miru_server import MiruServer, AsyncMiruServer
 from tests.utils import assert_matches_type
-from miru_server.types import (
+from miru_server_sdk import Miru, AsyncMiru
+from miru_server_sdk.types import (
     Device,
     DeviceListResponse,
     DeviceDeleteResponse,
@@ -24,7 +24,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_create(self, client: MiruServer) -> None:
+    def test_method_create(self, client: Miru) -> None:
         device = client.devices.create(
             name="Robot 1",
         )
@@ -32,7 +32,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_create(self, client: MiruServer) -> None:
+    def test_raw_response_create(self, client: Miru) -> None:
         response = client.devices.with_raw_response.create(
             name="Robot 1",
         )
@@ -44,7 +44,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_create(self, client: MiruServer) -> None:
+    def test_streaming_response_create(self, client: Miru) -> None:
         with client.devices.with_streaming_response.create(
             name="Robot 1",
         ) as response:
@@ -58,7 +58,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_retrieve(self, client: MiruServer) -> None:
+    def test_method_retrieve(self, client: Miru) -> None:
         device = client.devices.retrieve(
             "dvc_123",
         )
@@ -66,7 +66,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_retrieve(self, client: MiruServer) -> None:
+    def test_raw_response_retrieve(self, client: Miru) -> None:
         response = client.devices.with_raw_response.retrieve(
             "dvc_123",
         )
@@ -78,7 +78,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_retrieve(self, client: MiruServer) -> None:
+    def test_streaming_response_retrieve(self, client: Miru) -> None:
         with client.devices.with_streaming_response.retrieve(
             "dvc_123",
         ) as response:
@@ -92,7 +92,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_retrieve(self, client: MiruServer) -> None:
+    def test_path_params_retrieve(self, client: Miru) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             client.devices.with_raw_response.retrieve(
                 "",
@@ -100,7 +100,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_update(self, client: MiruServer) -> None:
+    def test_method_update(self, client: Miru) -> None:
         device = client.devices.update(
             device_id="dvc_123",
         )
@@ -108,7 +108,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_update_with_all_params(self, client: MiruServer) -> None:
+    def test_method_update_with_all_params(self, client: Miru) -> None:
         device = client.devices.update(
             device_id="dvc_123",
             name="Robot 1",
@@ -117,7 +117,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_update(self, client: MiruServer) -> None:
+    def test_raw_response_update(self, client: Miru) -> None:
         response = client.devices.with_raw_response.update(
             device_id="dvc_123",
         )
@@ -129,7 +129,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_update(self, client: MiruServer) -> None:
+    def test_streaming_response_update(self, client: Miru) -> None:
         with client.devices.with_streaming_response.update(
             device_id="dvc_123",
         ) as response:
@@ -143,7 +143,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_update(self, client: MiruServer) -> None:
+    def test_path_params_update(self, client: Miru) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             client.devices.with_raw_response.update(
                 device_id="",
@@ -151,13 +151,13 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_list(self, client: MiruServer) -> None:
+    def test_method_list(self, client: Miru) -> None:
         device = client.devices.list()
         assert_matches_type(DeviceListResponse, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_list_with_all_params(self, client: MiruServer) -> None:
+    def test_method_list_with_all_params(self, client: Miru) -> None:
         device = client.devices.list(
             id="dev_123",
             agent_version="v1.0.0",
@@ -172,7 +172,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_list(self, client: MiruServer) -> None:
+    def test_raw_response_list(self, client: Miru) -> None:
         response = client.devices.with_raw_response.list()
 
         assert response.is_closed is True
@@ -182,7 +182,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_list(self, client: MiruServer) -> None:
+    def test_streaming_response_list(self, client: Miru) -> None:
         with client.devices.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -194,7 +194,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_delete(self, client: MiruServer) -> None:
+    def test_method_delete(self, client: Miru) -> None:
         device = client.devices.delete(
             "dvc_123",
         )
@@ -202,7 +202,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_delete(self, client: MiruServer) -> None:
+    def test_raw_response_delete(self, client: Miru) -> None:
         response = client.devices.with_raw_response.delete(
             "dvc_123",
         )
@@ -214,7 +214,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_delete(self, client: MiruServer) -> None:
+    def test_streaming_response_delete(self, client: Miru) -> None:
         with client.devices.with_streaming_response.delete(
             "dvc_123",
         ) as response:
@@ -228,7 +228,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_delete(self, client: MiruServer) -> None:
+    def test_path_params_delete(self, client: Miru) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             client.devices.with_raw_response.delete(
                 "",
@@ -236,7 +236,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_create_activation_token(self, client: MiruServer) -> None:
+    def test_method_create_activation_token(self, client: Miru) -> None:
         device = client.devices.create_activation_token(
             device_id="dvc_123",
         )
@@ -244,7 +244,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_create_activation_token_with_all_params(self, client: MiruServer) -> None:
+    def test_method_create_activation_token_with_all_params(self, client: Miru) -> None:
         device = client.devices.create_activation_token(
             device_id="dvc_123",
             allow_reactivation=False,
@@ -253,7 +253,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_create_activation_token(self, client: MiruServer) -> None:
+    def test_raw_response_create_activation_token(self, client: Miru) -> None:
         response = client.devices.with_raw_response.create_activation_token(
             device_id="dvc_123",
         )
@@ -265,7 +265,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_create_activation_token(self, client: MiruServer) -> None:
+    def test_streaming_response_create_activation_token(self, client: Miru) -> None:
         with client.devices.with_streaming_response.create_activation_token(
             device_id="dvc_123",
         ) as response:
@@ -279,7 +279,7 @@ class TestDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_create_activation_token(self, client: MiruServer) -> None:
+    def test_path_params_create_activation_token(self, client: Miru) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             client.devices.with_raw_response.create_activation_token(
                 device_id="",
@@ -293,7 +293,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_create(self, async_client: AsyncMiruServer) -> None:
+    async def test_method_create(self, async_client: AsyncMiru) -> None:
         device = await async_client.devices.create(
             name="Robot 1",
         )
@@ -301,7 +301,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncMiruServer) -> None:
+    async def test_raw_response_create(self, async_client: AsyncMiru) -> None:
         response = await async_client.devices.with_raw_response.create(
             name="Robot 1",
         )
@@ -313,7 +313,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncMiruServer) -> None:
+    async def test_streaming_response_create(self, async_client: AsyncMiru) -> None:
         async with async_client.devices.with_streaming_response.create(
             name="Robot 1",
         ) as response:
@@ -327,7 +327,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncMiruServer) -> None:
+    async def test_method_retrieve(self, async_client: AsyncMiru) -> None:
         device = await async_client.devices.retrieve(
             "dvc_123",
         )
@@ -335,7 +335,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncMiruServer) -> None:
+    async def test_raw_response_retrieve(self, async_client: AsyncMiru) -> None:
         response = await async_client.devices.with_raw_response.retrieve(
             "dvc_123",
         )
@@ -347,7 +347,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncMiruServer) -> None:
+    async def test_streaming_response_retrieve(self, async_client: AsyncMiru) -> None:
         async with async_client.devices.with_streaming_response.retrieve(
             "dvc_123",
         ) as response:
@@ -361,7 +361,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncMiruServer) -> None:
+    async def test_path_params_retrieve(self, async_client: AsyncMiru) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             await async_client.devices.with_raw_response.retrieve(
                 "",
@@ -369,7 +369,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_update(self, async_client: AsyncMiruServer) -> None:
+    async def test_method_update(self, async_client: AsyncMiru) -> None:
         device = await async_client.devices.update(
             device_id="dvc_123",
         )
@@ -377,7 +377,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_update_with_all_params(self, async_client: AsyncMiruServer) -> None:
+    async def test_method_update_with_all_params(self, async_client: AsyncMiru) -> None:
         device = await async_client.devices.update(
             device_id="dvc_123",
             name="Robot 1",
@@ -386,7 +386,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_update(self, async_client: AsyncMiruServer) -> None:
+    async def test_raw_response_update(self, async_client: AsyncMiru) -> None:
         response = await async_client.devices.with_raw_response.update(
             device_id="dvc_123",
         )
@@ -398,7 +398,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_update(self, async_client: AsyncMiruServer) -> None:
+    async def test_streaming_response_update(self, async_client: AsyncMiru) -> None:
         async with async_client.devices.with_streaming_response.update(
             device_id="dvc_123",
         ) as response:
@@ -412,7 +412,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_update(self, async_client: AsyncMiruServer) -> None:
+    async def test_path_params_update(self, async_client: AsyncMiru) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             await async_client.devices.with_raw_response.update(
                 device_id="",
@@ -420,13 +420,13 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_list(self, async_client: AsyncMiruServer) -> None:
+    async def test_method_list(self, async_client: AsyncMiru) -> None:
         device = await async_client.devices.list()
         assert_matches_type(DeviceListResponse, device, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncMiruServer) -> None:
+    async def test_method_list_with_all_params(self, async_client: AsyncMiru) -> None:
         device = await async_client.devices.list(
             id="dev_123",
             agent_version="v1.0.0",
@@ -441,7 +441,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_list(self, async_client: AsyncMiruServer) -> None:
+    async def test_raw_response_list(self, async_client: AsyncMiru) -> None:
         response = await async_client.devices.with_raw_response.list()
 
         assert response.is_closed is True
@@ -451,7 +451,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_list(self, async_client: AsyncMiruServer) -> None:
+    async def test_streaming_response_list(self, async_client: AsyncMiru) -> None:
         async with async_client.devices.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -463,7 +463,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_delete(self, async_client: AsyncMiruServer) -> None:
+    async def test_method_delete(self, async_client: AsyncMiru) -> None:
         device = await async_client.devices.delete(
             "dvc_123",
         )
@@ -471,7 +471,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_delete(self, async_client: AsyncMiruServer) -> None:
+    async def test_raw_response_delete(self, async_client: AsyncMiru) -> None:
         response = await async_client.devices.with_raw_response.delete(
             "dvc_123",
         )
@@ -483,7 +483,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_delete(self, async_client: AsyncMiruServer) -> None:
+    async def test_streaming_response_delete(self, async_client: AsyncMiru) -> None:
         async with async_client.devices.with_streaming_response.delete(
             "dvc_123",
         ) as response:
@@ -497,7 +497,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_delete(self, async_client: AsyncMiruServer) -> None:
+    async def test_path_params_delete(self, async_client: AsyncMiru) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             await async_client.devices.with_raw_response.delete(
                 "",
@@ -505,7 +505,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_create_activation_token(self, async_client: AsyncMiruServer) -> None:
+    async def test_method_create_activation_token(self, async_client: AsyncMiru) -> None:
         device = await async_client.devices.create_activation_token(
             device_id="dvc_123",
         )
@@ -513,7 +513,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_create_activation_token_with_all_params(self, async_client: AsyncMiruServer) -> None:
+    async def test_method_create_activation_token_with_all_params(self, async_client: AsyncMiru) -> None:
         device = await async_client.devices.create_activation_token(
             device_id="dvc_123",
             allow_reactivation=False,
@@ -522,7 +522,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_create_activation_token(self, async_client: AsyncMiruServer) -> None:
+    async def test_raw_response_create_activation_token(self, async_client: AsyncMiru) -> None:
         response = await async_client.devices.with_raw_response.create_activation_token(
             device_id="dvc_123",
         )
@@ -534,7 +534,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_create_activation_token(self, async_client: AsyncMiruServer) -> None:
+    async def test_streaming_response_create_activation_token(self, async_client: AsyncMiru) -> None:
         async with async_client.devices.with_streaming_response.create_activation_token(
             device_id="dvc_123",
         ) as response:
@@ -548,7 +548,7 @@ class TestAsyncDevices:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_create_activation_token(self, async_client: AsyncMiruServer) -> None:
+    async def test_path_params_create_activation_token(self, async_client: AsyncMiru) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `device_id` but received ''"):
             await async_client.devices.with_raw_response.create_activation_token(
                 device_id="",

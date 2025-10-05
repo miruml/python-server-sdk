@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from miru_server import MiruServer, AsyncMiruServer
 from tests.utils import assert_matches_type
-from miru_server.types import (
+from miru_server_sdk import Miru, AsyncMiru
+from miru_server_sdk.types import (
     Deployment,
     DeploymentListResponse,
     DeploymentValidateResponse,
@@ -23,7 +23,7 @@ class TestDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_create(self, client: MiruServer) -> None:
+    def test_method_create(self, client: Miru) -> None:
         deployment = client.deployments.create(
             description="Update safety mode to 'manual'",
             device_id="dvc_123",
@@ -45,7 +45,7 @@ class TestDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_create_with_all_params(self, client: MiruServer) -> None:
+    def test_method_create_with_all_params(self, client: Miru) -> None:
         deployment = client.deployments.create(
             description="Update safety mode to 'manual'",
             device_id="dvc_123",
@@ -69,7 +69,7 @@ class TestDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_create(self, client: MiruServer) -> None:
+    def test_raw_response_create(self, client: Miru) -> None:
         response = client.deployments.with_raw_response.create(
             description="Update safety mode to 'manual'",
             device_id="dvc_123",
@@ -95,7 +95,7 @@ class TestDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_create(self, client: MiruServer) -> None:
+    def test_streaming_response_create(self, client: Miru) -> None:
         with client.deployments.with_streaming_response.create(
             description="Update safety mode to 'manual'",
             device_id="dvc_123",
@@ -123,7 +123,7 @@ class TestDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_retrieve(self, client: MiruServer) -> None:
+    def test_method_retrieve(self, client: Miru) -> None:
         deployment = client.deployments.retrieve(
             deployment_id="dpl_123",
         )
@@ -131,7 +131,7 @@ class TestDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_retrieve_with_all_params(self, client: MiruServer) -> None:
+    def test_method_retrieve_with_all_params(self, client: Miru) -> None:
         deployment = client.deployments.retrieve(
             deployment_id="dpl_123",
             expand=["device"],
@@ -140,7 +140,7 @@ class TestDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_retrieve(self, client: MiruServer) -> None:
+    def test_raw_response_retrieve(self, client: Miru) -> None:
         response = client.deployments.with_raw_response.retrieve(
             deployment_id="dpl_123",
         )
@@ -152,7 +152,7 @@ class TestDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_retrieve(self, client: MiruServer) -> None:
+    def test_streaming_response_retrieve(self, client: Miru) -> None:
         with client.deployments.with_streaming_response.retrieve(
             deployment_id="dpl_123",
         ) as response:
@@ -166,7 +166,7 @@ class TestDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_retrieve(self, client: MiruServer) -> None:
+    def test_path_params_retrieve(self, client: Miru) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `deployment_id` but received ''"):
             client.deployments.with_raw_response.retrieve(
                 deployment_id="",
@@ -174,13 +174,13 @@ class TestDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_list(self, client: MiruServer) -> None:
+    def test_method_list(self, client: Miru) -> None:
         deployment = client.deployments.list()
         assert_matches_type(DeploymentListResponse, deployment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_list_with_all_params(self, client: MiruServer) -> None:
+    def test_method_list_with_all_params(self, client: Miru) -> None:
         deployment = client.deployments.list(
             id="dpl_123",
             activity_status="validating",
@@ -197,7 +197,7 @@ class TestDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_list(self, client: MiruServer) -> None:
+    def test_raw_response_list(self, client: Miru) -> None:
         response = client.deployments.with_raw_response.list()
 
         assert response.is_closed is True
@@ -207,7 +207,7 @@ class TestDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_list(self, client: MiruServer) -> None:
+    def test_streaming_response_list(self, client: Miru) -> None:
         with client.deployments.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -219,7 +219,7 @@ class TestDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_validate(self, client: MiruServer) -> None:
+    def test_method_validate(self, client: Miru) -> None:
         deployment = client.deployments.validate(
             deployment_id="dpl_123",
             config_instances=[
@@ -241,7 +241,7 @@ class TestDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_validate(self, client: MiruServer) -> None:
+    def test_raw_response_validate(self, client: Miru) -> None:
         response = client.deployments.with_raw_response.validate(
             deployment_id="dpl_123",
             config_instances=[
@@ -267,7 +267,7 @@ class TestDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_validate(self, client: MiruServer) -> None:
+    def test_streaming_response_validate(self, client: Miru) -> None:
         with client.deployments.with_streaming_response.validate(
             deployment_id="dpl_123",
             config_instances=[
@@ -295,7 +295,7 @@ class TestDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_validate(self, client: MiruServer) -> None:
+    def test_path_params_validate(self, client: Miru) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `deployment_id` but received ''"):
             client.deployments.with_raw_response.validate(
                 deployment_id="",
@@ -323,7 +323,7 @@ class TestAsyncDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_create(self, async_client: AsyncMiruServer) -> None:
+    async def test_method_create(self, async_client: AsyncMiru) -> None:
         deployment = await async_client.deployments.create(
             description="Update safety mode to 'manual'",
             device_id="dvc_123",
@@ -345,7 +345,7 @@ class TestAsyncDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_create_with_all_params(self, async_client: AsyncMiruServer) -> None:
+    async def test_method_create_with_all_params(self, async_client: AsyncMiru) -> None:
         deployment = await async_client.deployments.create(
             description="Update safety mode to 'manual'",
             device_id="dvc_123",
@@ -369,7 +369,7 @@ class TestAsyncDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncMiruServer) -> None:
+    async def test_raw_response_create(self, async_client: AsyncMiru) -> None:
         response = await async_client.deployments.with_raw_response.create(
             description="Update safety mode to 'manual'",
             device_id="dvc_123",
@@ -395,7 +395,7 @@ class TestAsyncDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncMiruServer) -> None:
+    async def test_streaming_response_create(self, async_client: AsyncMiru) -> None:
         async with async_client.deployments.with_streaming_response.create(
             description="Update safety mode to 'manual'",
             device_id="dvc_123",
@@ -423,7 +423,7 @@ class TestAsyncDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncMiruServer) -> None:
+    async def test_method_retrieve(self, async_client: AsyncMiru) -> None:
         deployment = await async_client.deployments.retrieve(
             deployment_id="dpl_123",
         )
@@ -431,7 +431,7 @@ class TestAsyncDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_retrieve_with_all_params(self, async_client: AsyncMiruServer) -> None:
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncMiru) -> None:
         deployment = await async_client.deployments.retrieve(
             deployment_id="dpl_123",
             expand=["device"],
@@ -440,7 +440,7 @@ class TestAsyncDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncMiruServer) -> None:
+    async def test_raw_response_retrieve(self, async_client: AsyncMiru) -> None:
         response = await async_client.deployments.with_raw_response.retrieve(
             deployment_id="dpl_123",
         )
@@ -452,7 +452,7 @@ class TestAsyncDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncMiruServer) -> None:
+    async def test_streaming_response_retrieve(self, async_client: AsyncMiru) -> None:
         async with async_client.deployments.with_streaming_response.retrieve(
             deployment_id="dpl_123",
         ) as response:
@@ -466,7 +466,7 @@ class TestAsyncDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncMiruServer) -> None:
+    async def test_path_params_retrieve(self, async_client: AsyncMiru) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `deployment_id` but received ''"):
             await async_client.deployments.with_raw_response.retrieve(
                 deployment_id="",
@@ -474,13 +474,13 @@ class TestAsyncDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_list(self, async_client: AsyncMiruServer) -> None:
+    async def test_method_list(self, async_client: AsyncMiru) -> None:
         deployment = await async_client.deployments.list()
         assert_matches_type(DeploymentListResponse, deployment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncMiruServer) -> None:
+    async def test_method_list_with_all_params(self, async_client: AsyncMiru) -> None:
         deployment = await async_client.deployments.list(
             id="dpl_123",
             activity_status="validating",
@@ -497,7 +497,7 @@ class TestAsyncDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_list(self, async_client: AsyncMiruServer) -> None:
+    async def test_raw_response_list(self, async_client: AsyncMiru) -> None:
         response = await async_client.deployments.with_raw_response.list()
 
         assert response.is_closed is True
@@ -507,7 +507,7 @@ class TestAsyncDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_list(self, async_client: AsyncMiruServer) -> None:
+    async def test_streaming_response_list(self, async_client: AsyncMiru) -> None:
         async with async_client.deployments.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -519,7 +519,7 @@ class TestAsyncDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_validate(self, async_client: AsyncMiruServer) -> None:
+    async def test_method_validate(self, async_client: AsyncMiru) -> None:
         deployment = await async_client.deployments.validate(
             deployment_id="dpl_123",
             config_instances=[
@@ -541,7 +541,7 @@ class TestAsyncDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_validate(self, async_client: AsyncMiruServer) -> None:
+    async def test_raw_response_validate(self, async_client: AsyncMiru) -> None:
         response = await async_client.deployments.with_raw_response.validate(
             deployment_id="dpl_123",
             config_instances=[
@@ -567,7 +567,7 @@ class TestAsyncDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_validate(self, async_client: AsyncMiruServer) -> None:
+    async def test_streaming_response_validate(self, async_client: AsyncMiru) -> None:
         async with async_client.deployments.with_streaming_response.validate(
             deployment_id="dpl_123",
             config_instances=[
@@ -595,7 +595,7 @@ class TestAsyncDeployments:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_validate(self, async_client: AsyncMiruServer) -> None:
+    async def test_path_params_validate(self, async_client: AsyncMiru) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `deployment_id` but received ''"):
             await async_client.deployments.with_raw_response.validate(
                 deployment_id="",

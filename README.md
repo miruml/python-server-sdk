@@ -1,9 +1,9 @@
-# Miru Server Python API library
+# Miru Python API library
 
 <!-- prettier-ignore -->
 [![PyPI version](https://img.shields.io/pypi/v/miru_server_sdk.svg?label=pypi%20(stable))](https://pypi.org/project/miru_server_sdk/)
 
-The Miru Server Python library provides convenient access to the Miru Server REST API from any Python 3.8+
+The Miru Python library provides convenient access to the Miru REST API from any Python 3.8+
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
@@ -17,7 +17,7 @@ The full API of this library can be found in [api.md](api.md).
 
 ```sh
 # install from PyPI
-pip install miru_server_sdk
+pip install --pre miru_server_sdk
 ```
 
 ## Usage
@@ -26,9 +26,9 @@ The full API of this library can be found in [api.md](api.md).
 
 ```python
 import os
-from miru_server import MiruServer
+from miru_server_sdk import Miru
 
-client = MiruServer(
+client = Miru(
     api_key=os.environ.get("MIRU_SERVER_API_KEY"),  # This is the default and can be omitted
 )
 
@@ -45,14 +45,14 @@ so that your API Key is not stored in source control.
 
 ## Async usage
 
-Simply import `AsyncMiruServer` instead of `MiruServer` and use `await` with each API call:
+Simply import `AsyncMiru` instead of `Miru` and use `await` with each API call:
 
 ```python
 import os
 import asyncio
-from miru_server import AsyncMiruServer
+from miru_server_sdk import AsyncMiru
 
-client = AsyncMiruServer(
+client = AsyncMiru(
     api_key=os.environ.get("MIRU_SERVER_API_KEY"),  # This is the default and can be omitted
 )
 
@@ -77,19 +77,19 @@ You can enable this by installing `aiohttp`:
 
 ```sh
 # install from PyPI
-pip install miru_server_sdk[aiohttp]
+pip install --pre miru_server_sdk[aiohttp]
 ```
 
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
 ```python
 import asyncio
-from miru_server import DefaultAioHttpClient
-from miru_server import AsyncMiruServer
+from miru_server_sdk import DefaultAioHttpClient
+from miru_server_sdk import AsyncMiru
 
 
 async def main() -> None:
-    async with AsyncMiruServer(
+    async with AsyncMiru(
         api_key="My API Key",
         http_client=DefaultAioHttpClient(),
     ) as client:
@@ -113,29 +113,29 @@ Typed requests and responses provide autocomplete and documentation within your 
 
 ## Handling errors
 
-When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `miru_server.APIConnectionError` is raised.
+When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `miru_server_sdk.APIConnectionError` is raised.
 
 When the API returns a non-success status code (that is, 4xx or 5xx
-response), a subclass of `miru_server.APIStatusError` is raised, containing `status_code` and `response` properties.
+response), a subclass of `miru_server_sdk.APIStatusError` is raised, containing `status_code` and `response` properties.
 
-All errors inherit from `miru_server.APIError`.
+All errors inherit from `miru_server_sdk.APIError`.
 
 ```python
-import miru_server
-from miru_server import MiruServer
+import miru_server_sdk
+from miru_server_sdk import Miru
 
-client = MiruServer()
+client = Miru()
 
 try:
     client.config_instances.retrieve(
         config_instance_id="cfg_inst_123",
     )
-except miru_server.APIConnectionError as e:
+except miru_server_sdk.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
-except miru_server.RateLimitError as e:
+except miru_server_sdk.RateLimitError as e:
     print("A 429 status code was received; we should back off a bit.")
-except miru_server.APIStatusError as e:
+except miru_server_sdk.APIStatusError as e:
     print("Another non-200-range status code was received")
     print(e.status_code)
     print(e.response)
@@ -163,10 +163,10 @@ Connection errors (for example, due to a network connectivity problem), 408 Requ
 You can use the `max_retries` option to configure or disable retry settings:
 
 ```python
-from miru_server import MiruServer
+from miru_server_sdk import Miru
 
 # Configure the default for all requests:
-client = MiruServer(
+client = Miru(
     # default is 2
     max_retries=0,
 )
@@ -183,16 +183,16 @@ By default requests time out after 1 minute. You can configure this with a `time
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/timeouts/#fine-tuning-the-configuration) object:
 
 ```python
-from miru_server import MiruServer
+from miru_server_sdk import Miru
 
 # Configure the default for all requests:
-client = MiruServer(
+client = Miru(
     # 20 seconds (default is 1 minute)
     timeout=20.0,
 )
 
 # More granular control:
-client = MiruServer(
+client = Miru(
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
 )
 
@@ -212,10 +212,10 @@ Note that requests that time out are [retried twice by default](#retries).
 
 We use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.
 
-You can enable logging by setting the environment variable `MIRU_SERVER_LOG` to `info`.
+You can enable logging by setting the environment variable `MIRU_LOG` to `info`.
 
 ```shell
-$ export MIRU_SERVER_LOG=info
+$ export MIRU_LOG=info
 ```
 
 Or to `debug` for more verbose logging.
@@ -237,9 +237,9 @@ if response.my_field is None:
 The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
 
 ```py
-from miru_server import MiruServer
+from miru_server_sdk import Miru
 
-client = MiruServer()
+client = Miru()
 response = client.config_instances.with_raw_response.retrieve(
     config_instance_id="cfg_inst_123",
 )
@@ -249,9 +249,9 @@ config_instance = response.parse()  # get the object that `config_instances.retr
 print(config_instance.id)
 ```
 
-These methods return an [`APIResponse`](https://github.com/miruml/python-server-sdk/tree/main/src/miru_server/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/miruml/python-server-sdk/tree/main/src/miru_server_sdk/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/miruml/python-server-sdk/tree/main/src/miru_server/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/miruml/python-server-sdk/tree/main/src/miru_server_sdk/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 
@@ -315,10 +315,10 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 
 ```python
 import httpx
-from miru_server import MiruServer, DefaultHttpxClient
+from miru_server_sdk import Miru, DefaultHttpxClient
 
-client = MiruServer(
-    # Or use the `MIRU_SERVER_BASE_URL` env var
+client = Miru(
+    # Or use the `MIRU_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
     http_client=DefaultHttpxClient(
         proxy="http://my.test.proxy.example.com",
@@ -338,9 +338,9 @@ client.with_options(http_client=DefaultHttpxClient(...))
 By default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.
 
 ```py
-from miru_server import MiruServer
+from miru_server_sdk import Miru
 
-with MiruServer() as client:
+with Miru() as client:
   # make requests here
   ...
 
@@ -366,8 +366,8 @@ If you've upgraded to the latest version but aren't seeing any new features you 
 You can determine the version that is being used at runtime with:
 
 ```py
-import miru_server
-print(miru_server.__version__)
+import miru_server_sdk
+print(miru_server_sdk.__version__)
 ```
 
 ## Requirements

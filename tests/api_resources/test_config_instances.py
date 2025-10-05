@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from miru_server import MiruServer, AsyncMiruServer
 from tests.utils import assert_matches_type
-from miru_server.types import (
+from miru_server_sdk import Miru, AsyncMiru
+from miru_server_sdk.types import (
     ConfigInstance,
     ConfigInstanceListResponse,
 )
@@ -22,7 +22,7 @@ class TestConfigInstances:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_retrieve(self, client: MiruServer) -> None:
+    def test_method_retrieve(self, client: Miru) -> None:
         config_instance = client.config_instances.retrieve(
             config_instance_id="cfg_inst_123",
         )
@@ -30,7 +30,7 @@ class TestConfigInstances:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_retrieve_with_all_params(self, client: MiruServer) -> None:
+    def test_method_retrieve_with_all_params(self, client: Miru) -> None:
         config_instance = client.config_instances.retrieve(
             config_instance_id="cfg_inst_123",
             expand=["content"],
@@ -39,7 +39,7 @@ class TestConfigInstances:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_retrieve(self, client: MiruServer) -> None:
+    def test_raw_response_retrieve(self, client: Miru) -> None:
         response = client.config_instances.with_raw_response.retrieve(
             config_instance_id="cfg_inst_123",
         )
@@ -51,7 +51,7 @@ class TestConfigInstances:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_retrieve(self, client: MiruServer) -> None:
+    def test_streaming_response_retrieve(self, client: Miru) -> None:
         with client.config_instances.with_streaming_response.retrieve(
             config_instance_id="cfg_inst_123",
         ) as response:
@@ -65,7 +65,7 @@ class TestConfigInstances:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_retrieve(self, client: MiruServer) -> None:
+    def test_path_params_retrieve(self, client: Miru) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `config_instance_id` but received ''"):
             client.config_instances.with_raw_response.retrieve(
                 config_instance_id="",
@@ -73,13 +73,13 @@ class TestConfigInstances:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_list(self, client: MiruServer) -> None:
+    def test_method_list(self, client: Miru) -> None:
         config_instance = client.config_instances.list()
         assert_matches_type(ConfigInstanceListResponse, config_instance, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_list_with_all_params(self, client: MiruServer) -> None:
+    def test_method_list_with_all_params(self, client: Miru) -> None:
         config_instance = client.config_instances.list(
             id="cfg_inst_123",
             activity_status="created",
@@ -97,7 +97,7 @@ class TestConfigInstances:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_list(self, client: MiruServer) -> None:
+    def test_raw_response_list(self, client: Miru) -> None:
         response = client.config_instances.with_raw_response.list()
 
         assert response.is_closed is True
@@ -107,7 +107,7 @@ class TestConfigInstances:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_list(self, client: MiruServer) -> None:
+    def test_streaming_response_list(self, client: Miru) -> None:
         with client.config_instances.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -125,7 +125,7 @@ class TestAsyncConfigInstances:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncMiruServer) -> None:
+    async def test_method_retrieve(self, async_client: AsyncMiru) -> None:
         config_instance = await async_client.config_instances.retrieve(
             config_instance_id="cfg_inst_123",
         )
@@ -133,7 +133,7 @@ class TestAsyncConfigInstances:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_retrieve_with_all_params(self, async_client: AsyncMiruServer) -> None:
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncMiru) -> None:
         config_instance = await async_client.config_instances.retrieve(
             config_instance_id="cfg_inst_123",
             expand=["content"],
@@ -142,7 +142,7 @@ class TestAsyncConfigInstances:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncMiruServer) -> None:
+    async def test_raw_response_retrieve(self, async_client: AsyncMiru) -> None:
         response = await async_client.config_instances.with_raw_response.retrieve(
             config_instance_id="cfg_inst_123",
         )
@@ -154,7 +154,7 @@ class TestAsyncConfigInstances:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncMiruServer) -> None:
+    async def test_streaming_response_retrieve(self, async_client: AsyncMiru) -> None:
         async with async_client.config_instances.with_streaming_response.retrieve(
             config_instance_id="cfg_inst_123",
         ) as response:
@@ -168,7 +168,7 @@ class TestAsyncConfigInstances:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncMiruServer) -> None:
+    async def test_path_params_retrieve(self, async_client: AsyncMiru) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `config_instance_id` but received ''"):
             await async_client.config_instances.with_raw_response.retrieve(
                 config_instance_id="",
@@ -176,13 +176,13 @@ class TestAsyncConfigInstances:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_list(self, async_client: AsyncMiruServer) -> None:
+    async def test_method_list(self, async_client: AsyncMiru) -> None:
         config_instance = await async_client.config_instances.list()
         assert_matches_type(ConfigInstanceListResponse, config_instance, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncMiruServer) -> None:
+    async def test_method_list_with_all_params(self, async_client: AsyncMiru) -> None:
         config_instance = await async_client.config_instances.list(
             id="cfg_inst_123",
             activity_status="created",
@@ -200,7 +200,7 @@ class TestAsyncConfigInstances:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_list(self, async_client: AsyncMiruServer) -> None:
+    async def test_raw_response_list(self, async_client: AsyncMiru) -> None:
         response = await async_client.config_instances.with_raw_response.list()
 
         assert response.is_closed is True
@@ -210,7 +210,7 @@ class TestAsyncConfigInstances:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_list(self, async_client: AsyncMiruServer) -> None:
+    async def test_streaming_response_list(self, async_client: AsyncMiru) -> None:
         async with async_client.config_instances.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

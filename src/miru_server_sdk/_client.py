@@ -23,32 +23,23 @@ from ._utils import is_given, get_async_library
 from ._version import __version__
 from .resources import devices, releases, deployments, config_instances
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
-from ._exceptions import APIStatusError, MiruServerError
+from ._exceptions import MiruError, APIStatusError
 from ._base_client import (
     DEFAULT_MAX_RETRIES,
     SyncAPIClient,
     AsyncAPIClient,
 )
 
-__all__ = [
-    "Timeout",
-    "Transport",
-    "ProxiesTypes",
-    "RequestOptions",
-    "MiruServer",
-    "AsyncMiruServer",
-    "Client",
-    "AsyncClient",
-]
+__all__ = ["Timeout", "Transport", "ProxiesTypes", "RequestOptions", "Miru", "AsyncMiru", "Client", "AsyncClient"]
 
 
-class MiruServer(SyncAPIClient):
+class Miru(SyncAPIClient):
     config_instances: config_instances.ConfigInstancesResource
     deployments: deployments.DeploymentsResource
     devices: devices.DevicesResource
     releases: releases.ReleasesResource
-    with_raw_response: MiruServerWithRawResponse
-    with_streaming_response: MiruServerWithStreamedResponse
+    with_raw_response: MiruWithRawResponse
+    with_streaming_response: MiruWithStreamedResponse
 
     # client options
     api_key: str
@@ -80,7 +71,7 @@ class MiruServer(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous MiruServer client instance.
+        """Construct a new synchronous Miru client instance.
 
         This automatically infers the following arguments from their corresponding environment variables if they are not provided:
         - `api_key` from `MIRU_SERVER_API_KEY`
@@ -90,7 +81,7 @@ class MiruServer(SyncAPIClient):
         if api_key is None:
             api_key = os.environ.get("MIRU_SERVER_API_KEY")
         if api_key is None:
-            raise MiruServerError(
+            raise MiruError(
                 "The api_key client option must be set either by passing api_key to the client or by setting the MIRU_SERVER_API_KEY environment variable"
             )
         self.api_key = api_key
@@ -104,7 +95,7 @@ class MiruServer(SyncAPIClient):
         self.version = version
 
         if base_url is None:
-            base_url = os.environ.get("MIRU_SERVER_BASE_URL")
+            base_url = os.environ.get("MIRU_BASE_URL")
         if base_url is None:
             base_url = f"https://{host}/{version}"
 
@@ -123,8 +114,8 @@ class MiruServer(SyncAPIClient):
         self.deployments = deployments.DeploymentsResource(self)
         self.devices = devices.DevicesResource(self)
         self.releases = releases.ReleasesResource(self)
-        self.with_raw_response = MiruServerWithRawResponse(self)
-        self.with_streaming_response = MiruServerWithStreamedResponse(self)
+        self.with_raw_response = MiruWithRawResponse(self)
+        self.with_streaming_response = MiruWithStreamedResponse(self)
 
     @property
     @override
@@ -235,13 +226,13 @@ class MiruServer(SyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class AsyncMiruServer(AsyncAPIClient):
+class AsyncMiru(AsyncAPIClient):
     config_instances: config_instances.AsyncConfigInstancesResource
     deployments: deployments.AsyncDeploymentsResource
     devices: devices.AsyncDevicesResource
     releases: releases.AsyncReleasesResource
-    with_raw_response: AsyncMiruServerWithRawResponse
-    with_streaming_response: AsyncMiruServerWithStreamedResponse
+    with_raw_response: AsyncMiruWithRawResponse
+    with_streaming_response: AsyncMiruWithStreamedResponse
 
     # client options
     api_key: str
@@ -273,7 +264,7 @@ class AsyncMiruServer(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async AsyncMiruServer client instance.
+        """Construct a new async AsyncMiru client instance.
 
         This automatically infers the following arguments from their corresponding environment variables if they are not provided:
         - `api_key` from `MIRU_SERVER_API_KEY`
@@ -283,7 +274,7 @@ class AsyncMiruServer(AsyncAPIClient):
         if api_key is None:
             api_key = os.environ.get("MIRU_SERVER_API_KEY")
         if api_key is None:
-            raise MiruServerError(
+            raise MiruError(
                 "The api_key client option must be set either by passing api_key to the client or by setting the MIRU_SERVER_API_KEY environment variable"
             )
         self.api_key = api_key
@@ -297,7 +288,7 @@ class AsyncMiruServer(AsyncAPIClient):
         self.version = version
 
         if base_url is None:
-            base_url = os.environ.get("MIRU_SERVER_BASE_URL")
+            base_url = os.environ.get("MIRU_BASE_URL")
         if base_url is None:
             base_url = f"https://{host}/{version}"
 
@@ -316,8 +307,8 @@ class AsyncMiruServer(AsyncAPIClient):
         self.deployments = deployments.AsyncDeploymentsResource(self)
         self.devices = devices.AsyncDevicesResource(self)
         self.releases = releases.AsyncReleasesResource(self)
-        self.with_raw_response = AsyncMiruServerWithRawResponse(self)
-        self.with_streaming_response = AsyncMiruServerWithStreamedResponse(self)
+        self.with_raw_response = AsyncMiruWithRawResponse(self)
+        self.with_streaming_response = AsyncMiruWithStreamedResponse(self)
 
     @property
     @override
@@ -428,32 +419,32 @@ class AsyncMiruServer(AsyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class MiruServerWithRawResponse:
-    def __init__(self, client: MiruServer) -> None:
+class MiruWithRawResponse:
+    def __init__(self, client: Miru) -> None:
         self.config_instances = config_instances.ConfigInstancesResourceWithRawResponse(client.config_instances)
         self.deployments = deployments.DeploymentsResourceWithRawResponse(client.deployments)
         self.devices = devices.DevicesResourceWithRawResponse(client.devices)
         self.releases = releases.ReleasesResourceWithRawResponse(client.releases)
 
 
-class AsyncMiruServerWithRawResponse:
-    def __init__(self, client: AsyncMiruServer) -> None:
+class AsyncMiruWithRawResponse:
+    def __init__(self, client: AsyncMiru) -> None:
         self.config_instances = config_instances.AsyncConfigInstancesResourceWithRawResponse(client.config_instances)
         self.deployments = deployments.AsyncDeploymentsResourceWithRawResponse(client.deployments)
         self.devices = devices.AsyncDevicesResourceWithRawResponse(client.devices)
         self.releases = releases.AsyncReleasesResourceWithRawResponse(client.releases)
 
 
-class MiruServerWithStreamedResponse:
-    def __init__(self, client: MiruServer) -> None:
+class MiruWithStreamedResponse:
+    def __init__(self, client: Miru) -> None:
         self.config_instances = config_instances.ConfigInstancesResourceWithStreamingResponse(client.config_instances)
         self.deployments = deployments.DeploymentsResourceWithStreamingResponse(client.deployments)
         self.devices = devices.DevicesResourceWithStreamingResponse(client.devices)
         self.releases = releases.ReleasesResourceWithStreamingResponse(client.releases)
 
 
-class AsyncMiruServerWithStreamedResponse:
-    def __init__(self, client: AsyncMiruServer) -> None:
+class AsyncMiruWithStreamedResponse:
+    def __init__(self, client: AsyncMiru) -> None:
         self.config_instances = config_instances.AsyncConfigInstancesResourceWithStreamingResponse(
             client.config_instances
         )
@@ -462,6 +453,6 @@ class AsyncMiruServerWithStreamedResponse:
         self.releases = releases.AsyncReleasesResourceWithStreamingResponse(client.releases)
 
 
-Client = MiruServer
+Client = Miru
 
-AsyncClient = AsyncMiruServer
+AsyncClient = AsyncMiru

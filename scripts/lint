@@ -8,4 +8,4 @@ echo "==> Running lints"
 rye run lint
 
 echo "==> Making sure it imports"
-rye run python -c 'import miru_server'
+rye run python -c 'import miru_server_sdk'
