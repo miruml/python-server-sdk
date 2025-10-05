@@ -11,13 +11,13 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ## Documentation
 
-The REST API documentation can be found on [docs.miruml.com](https://docs.miruml.com). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.miruml.com](https://docs.miruml.com/home). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
 ```sh
 # install from PyPI
-pip install --pre miru_server_sdk
+pip install miru_server_sdk
 ```
 
 ## Usage
@@ -81,7 +81,7 @@ You can enable this by installing `aiohttp`:
 
 ```sh
 # install from PyPI
-pip install --pre miru_server_sdk[aiohttp]
+pip install miru_server_sdk[aiohttp]
 ```
 
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
