@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import cast, Any
+from typing import Any, cast
 
 from .._models import construct_type
 from .._resource import SyncAPIResource, AsyncAPIResource
