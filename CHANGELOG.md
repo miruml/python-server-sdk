@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.4.1-beta.2 (2025-10-05)
+
+Full Changelog: [v0.4.1-beta.1...v0.4.1-beta.2](https://github.com/miruml/python-server-sdk/compare/v0.4.1-beta.1...v0.4.1-beta.2)
+
+### Styles
+
+* alphabetize webhook imports ([944a3ef](https://github.com/miruml/python-server-sdk/commit/944a3ef1b90d1efcff434ad218237107fb216a56))
+
+
+### Refactors
+
+* webhook payload to be type 'Any' instead of 'string' ([d0f5bdf](https://github.com/miruml/python-server-sdk/commit/d0f5bdf96c37812e15ddba85ce45e898491546ae))
+
 ## 0.4.1-beta.1 (2025-10-05)
 
 Full Changelog: [v0.4.1-beta.0...v0.4.1-beta.1](https://github.com/miruml/python-server-sdk/compare/v0.4.1-beta.0...v0.4.1-beta.1)
