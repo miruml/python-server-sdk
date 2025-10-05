@@ -5,8 +5,8 @@ from typing import Iterator, AsyncIterator
 import httpx
 import pytest
 
-from miru import Miru, AsyncMiru
-from miru._streaming import Stream, AsyncStream, ServerSentEvent
+from miru_server_sdk import Miru, AsyncMiru
+from miru_server_sdk._streaming import Stream, AsyncStream, ServerSentEvent
 
 
 @pytest.mark.asyncio

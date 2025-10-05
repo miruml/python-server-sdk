@@ -18,12 +18,12 @@ import pytest
 from respx import MockRouter
 from pydantic import ValidationError
 
-from miru import Miru, AsyncMiru, APIResponseValidationError
-from miru._types import Omit
-from miru._utils import asyncify
-from miru._models import BaseModel, FinalRequestOptions
-from miru._exceptions import MiruError, APIStatusError, APITimeoutError, APIResponseValidationError
-from miru._base_client import (
+from miru_server_sdk import Miru, AsyncMiru, APIResponseValidationError
+from miru_server_sdk._types import Omit
+from miru_server_sdk._utils import asyncify
+from miru_server_sdk._models import BaseModel, FinalRequestOptions
+from miru_server_sdk._exceptions import MiruError, APIStatusError, APITimeoutError, APIResponseValidationError
+from miru_server_sdk._base_client import (
     DEFAULT_TIMEOUT,
     HTTPX_DEFAULT_TIMEOUT,
     BaseClient,
@@ -232,10 +232,10 @@ class TestMiru:
                         # to_raw_response_wrapper leaks through the @functools.wraps() decorator.
                         #
                         # removing the decorator fixes the leak for reasons we don't understand.
-                        "miru/_legacy_response.py",
-                        "miru/_response.py",
+                        "miru_server_sdk/_legacy_response.py",
+                        "miru_server_sdk/_response.py",
                         # pydantic.BaseModel.model_dump || pydantic.BaseModel.dict leak memory for some reason.
-                        "miru/_compat.py",
+                        "miru_server_sdk/_compat.py",
                         # Standard library leaks we don't care about.
                         "/logging/__init__.py",
                     ]
@@ -703,7 +703,7 @@ class TestMiru:
         calculated = client._calculate_retry_timeout(remaining_retries, options, headers)
         assert calculated == pytest.approx(timeout, 0.5 * 0.875)  # pyright: ignore[reportUnknownMemberType]
 
-    @mock.patch("miru._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("miru_server_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, client: Miru) -> None:
         respx_mock.get("/config_instances/cfg_inst_123").mock(side_effect=httpx.TimeoutException("Test timeout error"))
@@ -713,7 +713,7 @@ class TestMiru:
 
         assert _get_open_connections(self.client) == 0
 
-    @mock.patch("miru._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("miru_server_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, client: Miru) -> None:
         respx_mock.get("/config_instances/cfg_inst_123").mock(return_value=httpx.Response(500))
@@ -723,7 +723,7 @@ class TestMiru:
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("miru._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("miru_server_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.parametrize("failure_mode", ["status", "exception"])
     def test_retries_taken(
@@ -754,7 +754,7 @@ class TestMiru:
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("miru._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("miru_server_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_omit_retry_count_header(self, client: Miru, failures_before_success: int, respx_mock: MockRouter) -> None:
         client = client.with_options(max_retries=4)
@@ -777,7 +777,7 @@ class TestMiru:
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("miru._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("miru_server_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_overwrite_retry_count_header(
         self, client: Miru, failures_before_success: int, respx_mock: MockRouter
@@ -1027,10 +1027,10 @@ class TestAsyncMiru:
                         # to_raw_response_wrapper leaks through the @functools.wraps() decorator.
                         #
                         # removing the decorator fixes the leak for reasons we don't understand.
-                        "miru/_legacy_response.py",
-                        "miru/_response.py",
+                        "miru_server_sdk/_legacy_response.py",
+                        "miru_server_sdk/_response.py",
                         # pydantic.BaseModel.model_dump || pydantic.BaseModel.dict leak memory for some reason.
-                        "miru/_compat.py",
+                        "miru_server_sdk/_compat.py",
                         # Standard library leaks we don't care about.
                         "/logging/__init__.py",
                     ]
@@ -1510,7 +1510,7 @@ class TestAsyncMiru:
         calculated = client._calculate_retry_timeout(remaining_retries, options, headers)
         assert calculated == pytest.approx(timeout, 0.5 * 0.875)  # pyright: ignore[reportUnknownMemberType]
 
-    @mock.patch("miru._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("miru_server_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, async_client: AsyncMiru) -> None:
         respx_mock.get("/config_instances/cfg_inst_123").mock(side_effect=httpx.TimeoutException("Test timeout error"))
@@ -1522,7 +1522,7 @@ class TestAsyncMiru:
 
         assert _get_open_connections(self.client) == 0
 
-    @mock.patch("miru._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("miru_server_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, async_client: AsyncMiru) -> None:
         respx_mock.get("/config_instances/cfg_inst_123").mock(return_value=httpx.Response(500))
@@ -1534,7 +1534,7 @@ class TestAsyncMiru:
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("miru._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("miru_server_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
     @pytest.mark.parametrize("failure_mode", ["status", "exception"])
@@ -1566,7 +1566,7 @@ class TestAsyncMiru:
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("miru._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("miru_server_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
     async def test_omit_retry_count_header(
@@ -1592,7 +1592,7 @@ class TestAsyncMiru:
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("miru._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("miru_server_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
     async def test_overwrite_retry_count_header(

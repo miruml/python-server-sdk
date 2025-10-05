@@ -7,12 +7,12 @@ from typing import Any, cast
 
 import pytest
 
-from miru import Miru, AsyncMiru
-from miru.types import (
+from tests.utils import assert_matches_type
+from miru_server_sdk import Miru, AsyncMiru
+from miru_server_sdk.types import (
     ConfigInstance,
     ConfigInstanceListResponse,
 )
-from tests.utils import assert_matches_type
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
