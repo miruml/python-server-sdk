@@ -67,3 +67,11 @@ Methods:
 
 - <code title="get /releases/{release_id}">client.releases.<a href="./src/miru_server_sdk/resources/releases.py">retrieve</a>(release_id, \*\*<a href="src/miru_server_sdk/types/release_retrieve_params.py">params</a>) -> <a href="./src/miru_server_sdk/types/release.py">Release</a></code>
 - <code title="get /releases">client.releases.<a href="./src/miru_server_sdk/resources/releases.py">list</a>(\*\*<a href="src/miru_server_sdk/types/release_list_params.py">params</a>) -> <a href="./src/miru_server_sdk/types/release_list_response.py">ReleaseListResponse</a></code>
+
+# Webhooks
+
+Types:
+
+```python
+from miru_server_sdk.types import DeploymentValidateWebhookEvent, UnwrapWebhookEvent
+```

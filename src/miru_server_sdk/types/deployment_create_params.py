@@ -20,13 +20,12 @@ class DeploymentCreateParams(TypedDict, total=False):
 
     A deployment must have exactly one config instance for each config schema in the
     deployment's release. If less config instances are provided than the number of
-    schemas, the deployment will 'transfer' config instances its patch source.
-    Archived config instances (in patch sources) cannot be transferred, they must be
-    created anew.
+    schemas, the deployment will 'transfer' config instances from the deployment it
+    is patched from. Archived config instances cannot be transferred.
     """
 
     release_id: Required[str]
-    """The ID of the release which this deployment adheres to."""
+    """The release ID which this deployment adheres to."""
 
     target_status: Required[Literal["pending", "approved", "deployed"]]
     """Desired state of the deployment.
@@ -39,20 +38,14 @@ class DeploymentCreateParams(TypedDict, total=False):
       release is the device's current release.
 
     If custom validation is enabled for the release, the deployment must pass
-    validation before fulfilling the target status. Otherwise, the deployment fails
-    and current deployments are unaffected.
+    validation before fulfilling the target status.
     """
 
     expand: List[Literal["device", "release", "config_instances"]]
     """The fields to expand in the deployment."""
 
     patch_source_id: str
-    """The ID of the deployment that this deployment was (optionally) patched from.
-
-    If no patch source is provided, the deployment is considered to be 'new'-- it is
-    not a delta from an existing deployment. If a patch source is provided, the
-    deployment is considered to be a delta of changes from the patch source.
-    """
+    """The ID of the deployment that this deployment was patched from."""
 
 
 class NewConfigInstance(TypedDict, total=False):
