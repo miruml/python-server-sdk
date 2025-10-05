@@ -11,7 +11,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ## Documentation
 
-The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.miruml.com](https://docs.miruml.com). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
@@ -30,6 +30,8 @@ from miru_server_sdk import Miru
 
 client = Miru(
     api_key=os.environ.get("MIRU_SERVER_API_KEY"),  # This is the default and can be omitted
+    # or 'production' | 'local'; defaults to "production".
+    environment="staging",
 )
 
 config_instance = client.config_instances.retrieve(
@@ -54,6 +56,8 @@ from miru_server_sdk import AsyncMiru
 
 client = AsyncMiru(
     api_key=os.environ.get("MIRU_SERVER_API_KEY"),  # This is the default and can be omitted
+    # or 'production' | 'local'; defaults to "production".
+    environment="staging",
 )
 
 
