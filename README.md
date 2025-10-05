@@ -1,7 +1,7 @@
 # Miru Server Python API library
 
 <!-- prettier-ignore -->
-[![PyPI version](https://img.shields.io/pypi/v/miru_server.svg?label=pypi%20(stable))](https://pypi.org/project/miru_server/)
+[![PyPI version](https://img.shields.io/pypi/v/miru_server_sdk.svg?label=pypi%20(stable))](https://pypi.org/project/miru_server_sdk/)
 
 The Miru Server Python library provides convenient access to the Miru Server REST API from any Python 3.8+
 application. The library includes type definitions for all request params and response fields,
@@ -16,12 +16,9 @@ The full API of this library can be found in [api.md](api.md).
 ## Installation
 
 ```sh
-# install from this staging repo
-pip install git+ssh://git@github.com/stainless-sdks/miru-server-python.git
+# install from PyPI
+pip install miru_server_sdk
 ```
-
-> [!NOTE]
-> Once this package is [published to PyPI](https://www.stainless.com/docs/guides/publish), this will become: `pip install miru_server`
 
 ## Usage
 
@@ -79,8 +76,8 @@ By default, the async client uses `httpx` for HTTP requests. However, for improv
 You can enable this by installing `aiohttp`:
 
 ```sh
-# install from this staging repo
-pip install 'miru_server[aiohttp] @ git+ssh://git@github.com/stainless-sdks/miru-server-python.git'
+# install from PyPI
+pip install miru_server_sdk[aiohttp]
 ```
 
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
@@ -252,9 +249,9 @@ config_instance = response.parse()  # get the object that `config_instances.retr
 print(config_instance.id)
 ```
 
-These methods return an [`APIResponse`](https://github.com/stainless-sdks/miru-server-python/tree/main/src/miru_server/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/miruml/python-server-sdk/tree/main/src/miru_server/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/stainless-sdks/miru-server-python/tree/main/src/miru_server/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/miruml/python-server-sdk/tree/main/src/miru_server/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 
@@ -360,7 +357,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/miru-server-python/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/miruml/python-server-sdk/issues) with questions, bugs, or suggestions.
 
 ### Determining the installed version
 
