@@ -2,7 +2,7 @@ import operator
 from typing import Any
 from typing_extensions import override
 
-from miru_server._utils import LazyProxy
+from miru._utils import LazyProxy
 
 
 class RecursiveLazyProxy(LazyProxy[Any]):

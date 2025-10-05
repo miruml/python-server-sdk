@@ -18,12 +18,12 @@ import pytest
 from respx import MockRouter
 from pydantic import ValidationError
 
-from miru_server import MiruServer, AsyncMiruServer, APIResponseValidationError
-from miru_server._types import Omit
-from miru_server._utils import asyncify
-from miru_server._models import BaseModel, FinalRequestOptions
-from miru_server._exceptions import APIStatusError, APITimeoutError, MiruServerError, APIResponseValidationError
-from miru_server._base_client import (
+from miru import Miru, AsyncMiru, APIResponseValidationError
+from miru._types import Omit
+from miru._utils import asyncify
+from miru._models import BaseModel, FinalRequestOptions
+from miru._exceptions import MiruError, APIStatusError, APITimeoutError, APIResponseValidationError
+from miru._base_client import (
     DEFAULT_TIMEOUT,
     HTTPX_DEFAULT_TIMEOUT,
     BaseClient,
@@ -50,7 +50,7 @@ def _low_retry_timeout(*_args: Any, **_kwargs: Any) -> float:
     return 0.1
 
 
-def _get_open_connections(client: MiruServer | AsyncMiruServer) -> int:
+def _get_open_connections(client: Miru | AsyncMiru) -> int:
     transport = client._client._transport
     assert isinstance(transport, httpx.HTTPTransport) or isinstance(transport, httpx.AsyncHTTPTransport)
 
@@ -58,8 +58,8 @@ def _get_open_connections(client: MiruServer | AsyncMiruServer) -> int:
     return len(pool._requests)
 
 
-class TestMiruServer:
-    client = MiruServer(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+class TestMiru:
+    client = Miru(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
     @pytest.mark.respx(base_url=base_url)
     def test_raw_response(self, respx_mock: MockRouter) -> None:
@@ -106,7 +106,7 @@ class TestMiruServer:
         assert isinstance(self.client.timeout, httpx.Timeout)
 
     def test_copy_default_headers(self) -> None:
-        client = MiruServer(
+        client = Miru(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         assert client.default_headers["X-Foo"] == "bar"
@@ -140,7 +140,7 @@ class TestMiruServer:
             client.copy(set_default_headers={}, default_headers={"X-Foo": "Bar"})
 
     def test_copy_default_query(self) -> None:
-        client = MiruServer(
+        client = Miru(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
@@ -232,10 +232,10 @@ class TestMiruServer:
                         # to_raw_response_wrapper leaks through the @functools.wraps() decorator.
                         #
                         # removing the decorator fixes the leak for reasons we don't understand.
-                        "miru_server/_legacy_response.py",
-                        "miru_server/_response.py",
+                        "miru/_legacy_response.py",
+                        "miru/_response.py",
                         # pydantic.BaseModel.model_dump || pydantic.BaseModel.dict leak memory for some reason.
-                        "miru_server/_compat.py",
+                        "miru/_compat.py",
                         # Standard library leaks we don't care about.
                         "/logging/__init__.py",
                     ]
@@ -266,9 +266,7 @@ class TestMiruServer:
         assert timeout == httpx.Timeout(100.0)
 
     def test_client_timeout_option(self) -> None:
-        client = MiruServer(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
-        )
+        client = Miru(base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0))
 
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -277,9 +275,7 @@ class TestMiruServer:
     def test_http_client_timeout_option(self) -> None:
         # custom timeout given to the httpx client should be used
         with httpx.Client(timeout=None) as http_client:
-            client = MiruServer(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
-            )
+            client = Miru(base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client)
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -287,9 +283,7 @@ class TestMiruServer:
 
         # no timeout given to the httpx client should not use the httpx default
         with httpx.Client() as http_client:
-            client = MiruServer(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
-            )
+            client = Miru(base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client)
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -297,9 +291,7 @@ class TestMiruServer:
 
         # explicitly passing the default timeout currently results in it being ignored
         with httpx.Client(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
-            client = MiruServer(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
-            )
+            client = Miru(base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client)
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -308,7 +300,7 @@ class TestMiruServer:
     async def test_invalid_http_client(self) -> None:
         with pytest.raises(TypeError, match="Invalid `http_client` arg"):
             async with httpx.AsyncClient() as http_client:
-                MiruServer(
+                Miru(
                     base_url=base_url,
                     api_key=api_key,
                     _strict_response_validation=True,
@@ -316,14 +308,14 @@ class TestMiruServer:
                 )
 
     def test_default_headers_option(self) -> None:
-        client = MiruServer(
+        client = Miru(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
         assert request.headers.get("x-stainless-lang") == "python"
 
-        client2 = MiruServer(
+        client2 = Miru(
             base_url=base_url,
             api_key=api_key,
             _strict_response_validation=True,
@@ -337,17 +329,17 @@ class TestMiruServer:
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
     def test_validate_headers(self) -> None:
-        client = MiruServer(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = Miru(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("X-API-Key") == api_key
 
-        with pytest.raises(MiruServerError):
+        with pytest.raises(MiruError):
             with update_env(**{"MIRU_SERVER_API_KEY": Omit()}):
-                client2 = MiruServer(base_url=base_url, api_key=None, _strict_response_validation=True)
+                client2 = Miru(base_url=base_url, api_key=None, _strict_response_validation=True)
             _ = client2
 
     def test_default_query_option(self) -> None:
-        client = MiruServer(
+        client = Miru(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -461,7 +453,7 @@ class TestMiruServer:
         params = dict(request.url.params)
         assert params == {"foo": "2"}
 
-    def test_multipart_repeating_array(self, client: MiruServer) -> None:
+    def test_multipart_repeating_array(self, client: Miru) -> None:
         request = client._build_request(
             FinalRequestOptions.construct(
                 method="post",
@@ -548,7 +540,7 @@ class TestMiruServer:
         assert response.foo == 2
 
     def test_base_url_setter(self) -> None:
-        client = MiruServer(base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True)
+        client = Miru(base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True)
         assert client.base_url == "https://example.com/from_init/"
 
         client.base_url = "https://example.com/from_setter"  # type: ignore[assignment]
@@ -556,17 +548,15 @@ class TestMiruServer:
         assert client.base_url == "https://example.com/from_setter/"
 
     def test_base_url_env(self) -> None:
-        with update_env(MIRU_SERVER_BASE_URL="http://localhost:5000/from/env"):
-            client = MiruServer(api_key=api_key, _strict_response_validation=True)
+        with update_env(MIRU_BASE_URL="http://localhost:5000/from/env"):
+            client = Miru(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
     @pytest.mark.parametrize(
         "client",
         [
-            MiruServer(
-                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
-            ),
-            MiruServer(
+            Miru(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
+            Miru(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -575,7 +565,7 @@ class TestMiruServer:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_base_url_trailing_slash(self, client: MiruServer) -> None:
+    def test_base_url_trailing_slash(self, client: Miru) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -588,10 +578,8 @@ class TestMiruServer:
     @pytest.mark.parametrize(
         "client",
         [
-            MiruServer(
-                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
-            ),
-            MiruServer(
+            Miru(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
+            Miru(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -600,7 +588,7 @@ class TestMiruServer:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_base_url_no_trailing_slash(self, client: MiruServer) -> None:
+    def test_base_url_no_trailing_slash(self, client: Miru) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -613,10 +601,8 @@ class TestMiruServer:
     @pytest.mark.parametrize(
         "client",
         [
-            MiruServer(
-                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
-            ),
-            MiruServer(
+            Miru(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
+            Miru(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -625,7 +611,7 @@ class TestMiruServer:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_absolute_request_url(self, client: MiruServer) -> None:
+    def test_absolute_request_url(self, client: Miru) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -636,7 +622,7 @@ class TestMiruServer:
         assert request.url == "https://myapi.com/foo"
 
     def test_copied_client_does_not_close_http(self) -> None:
-        client = MiruServer(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = Miru(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not client.is_closed()
 
         copied = client.copy()
@@ -647,7 +633,7 @@ class TestMiruServer:
         assert not client.is_closed()
 
     def test_client_context_manager(self) -> None:
-        client = MiruServer(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = Miru(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -668,9 +654,7 @@ class TestMiruServer:
 
     def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
-            MiruServer(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None)
-            )
+            Miru(base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None))
 
     @pytest.mark.respx(base_url=base_url)
     def test_received_text_for_expected_json(self, respx_mock: MockRouter) -> None:
@@ -679,12 +663,12 @@ class TestMiruServer:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = MiruServer(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        strict_client = Miru(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             strict_client.get("/foo", cast_to=Model)
 
-        client = MiruServer(base_url=base_url, api_key=api_key, _strict_response_validation=False)
+        client = Miru(base_url=base_url, api_key=api_key, _strict_response_validation=False)
 
         response = client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -712,16 +696,16 @@ class TestMiruServer:
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = MiruServer(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = Miru(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
         calculated = client._calculate_retry_timeout(remaining_retries, options, headers)
         assert calculated == pytest.approx(timeout, 0.5 * 0.875)  # pyright: ignore[reportUnknownMemberType]
 
-    @mock.patch("miru_server._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("miru._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, client: MiruServer) -> None:
+    def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, client: Miru) -> None:
         respx_mock.get("/config_instances/cfg_inst_123").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
@@ -729,9 +713,9 @@ class TestMiruServer:
 
         assert _get_open_connections(self.client) == 0
 
-    @mock.patch("miru_server._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("miru._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, client: MiruServer) -> None:
+    def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, client: Miru) -> None:
         respx_mock.get("/config_instances/cfg_inst_123").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
@@ -739,12 +723,12 @@ class TestMiruServer:
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("miru_server._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("miru._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.parametrize("failure_mode", ["status", "exception"])
     def test_retries_taken(
         self,
-        client: MiruServer,
+        client: Miru,
         failures_before_success: int,
         failure_mode: Literal["status", "exception"],
         respx_mock: MockRouter,
@@ -770,11 +754,9 @@ class TestMiruServer:
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("miru_server._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("miru._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    def test_omit_retry_count_header(
-        self, client: MiruServer, failures_before_success: int, respx_mock: MockRouter
-    ) -> None:
+    def test_omit_retry_count_header(self, client: Miru, failures_before_success: int, respx_mock: MockRouter) -> None:
         client = client.with_options(max_retries=4)
 
         nb_retries = 0
@@ -795,10 +777,10 @@ class TestMiruServer:
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("miru_server._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("miru._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_overwrite_retry_count_header(
-        self, client: MiruServer, failures_before_success: int, respx_mock: MockRouter
+        self, client: Miru, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = client.with_options(max_retries=4)
 
@@ -869,8 +851,8 @@ class TestMiruServer:
         assert exc_info.value.response.headers["Location"] == f"{base_url}/redirected"
 
 
-class TestAsyncMiruServer:
-    client = AsyncMiruServer(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+class TestAsyncMiru:
+    client = AsyncMiru(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
@@ -919,7 +901,7 @@ class TestAsyncMiruServer:
         assert isinstance(self.client.timeout, httpx.Timeout)
 
     def test_copy_default_headers(self) -> None:
-        client = AsyncMiruServer(
+        client = AsyncMiru(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         assert client.default_headers["X-Foo"] == "bar"
@@ -953,7 +935,7 @@ class TestAsyncMiruServer:
             client.copy(set_default_headers={}, default_headers={"X-Foo": "Bar"})
 
     def test_copy_default_query(self) -> None:
-        client = AsyncMiruServer(
+        client = AsyncMiru(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
@@ -1045,10 +1027,10 @@ class TestAsyncMiruServer:
                         # to_raw_response_wrapper leaks through the @functools.wraps() decorator.
                         #
                         # removing the decorator fixes the leak for reasons we don't understand.
-                        "miru_server/_legacy_response.py",
-                        "miru_server/_response.py",
+                        "miru/_legacy_response.py",
+                        "miru/_response.py",
                         # pydantic.BaseModel.model_dump || pydantic.BaseModel.dict leak memory for some reason.
-                        "miru_server/_compat.py",
+                        "miru/_compat.py",
                         # Standard library leaks we don't care about.
                         "/logging/__init__.py",
                     ]
@@ -1079,7 +1061,7 @@ class TestAsyncMiruServer:
         assert timeout == httpx.Timeout(100.0)
 
     async def test_client_timeout_option(self) -> None:
-        client = AsyncMiruServer(
+        client = AsyncMiru(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
         )
 
@@ -1090,7 +1072,7 @@ class TestAsyncMiruServer:
     async def test_http_client_timeout_option(self) -> None:
         # custom timeout given to the httpx client should be used
         async with httpx.AsyncClient(timeout=None) as http_client:
-            client = AsyncMiruServer(
+            client = AsyncMiru(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
@@ -1100,7 +1082,7 @@ class TestAsyncMiruServer:
 
         # no timeout given to the httpx client should not use the httpx default
         async with httpx.AsyncClient() as http_client:
-            client = AsyncMiruServer(
+            client = AsyncMiru(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
@@ -1110,7 +1092,7 @@ class TestAsyncMiruServer:
 
         # explicitly passing the default timeout currently results in it being ignored
         async with httpx.AsyncClient(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
-            client = AsyncMiruServer(
+            client = AsyncMiru(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
@@ -1121,7 +1103,7 @@ class TestAsyncMiruServer:
     def test_invalid_http_client(self) -> None:
         with pytest.raises(TypeError, match="Invalid `http_client` arg"):
             with httpx.Client() as http_client:
-                AsyncMiruServer(
+                AsyncMiru(
                     base_url=base_url,
                     api_key=api_key,
                     _strict_response_validation=True,
@@ -1129,14 +1111,14 @@ class TestAsyncMiruServer:
                 )
 
     def test_default_headers_option(self) -> None:
-        client = AsyncMiruServer(
+        client = AsyncMiru(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
         assert request.headers.get("x-stainless-lang") == "python"
 
-        client2 = AsyncMiruServer(
+        client2 = AsyncMiru(
             base_url=base_url,
             api_key=api_key,
             _strict_response_validation=True,
@@ -1150,17 +1132,17 @@ class TestAsyncMiruServer:
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
     def test_validate_headers(self) -> None:
-        client = AsyncMiruServer(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = AsyncMiru(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("X-API-Key") == api_key
 
-        with pytest.raises(MiruServerError):
+        with pytest.raises(MiruError):
             with update_env(**{"MIRU_SERVER_API_KEY": Omit()}):
-                client2 = AsyncMiruServer(base_url=base_url, api_key=None, _strict_response_validation=True)
+                client2 = AsyncMiru(base_url=base_url, api_key=None, _strict_response_validation=True)
             _ = client2
 
     def test_default_query_option(self) -> None:
-        client = AsyncMiruServer(
+        client = AsyncMiru(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1274,7 +1256,7 @@ class TestAsyncMiruServer:
         params = dict(request.url.params)
         assert params == {"foo": "2"}
 
-    def test_multipart_repeating_array(self, async_client: AsyncMiruServer) -> None:
+    def test_multipart_repeating_array(self, async_client: AsyncMiru) -> None:
         request = async_client._build_request(
             FinalRequestOptions.construct(
                 method="post",
@@ -1361,9 +1343,7 @@ class TestAsyncMiruServer:
         assert response.foo == 2
 
     def test_base_url_setter(self) -> None:
-        client = AsyncMiruServer(
-            base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True
-        )
+        client = AsyncMiru(base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True)
         assert client.base_url == "https://example.com/from_init/"
 
         client.base_url = "https://example.com/from_setter"  # type: ignore[assignment]
@@ -1371,17 +1351,15 @@ class TestAsyncMiruServer:
         assert client.base_url == "https://example.com/from_setter/"
 
     def test_base_url_env(self) -> None:
-        with update_env(MIRU_SERVER_BASE_URL="http://localhost:5000/from/env"):
-            client = AsyncMiruServer(api_key=api_key, _strict_response_validation=True)
+        with update_env(MIRU_BASE_URL="http://localhost:5000/from/env"):
+            client = AsyncMiru(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
     @pytest.mark.parametrize(
         "client",
         [
-            AsyncMiruServer(
-                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
-            ),
-            AsyncMiruServer(
+            AsyncMiru(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
+            AsyncMiru(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -1390,7 +1368,7 @@ class TestAsyncMiruServer:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_base_url_trailing_slash(self, client: AsyncMiruServer) -> None:
+    def test_base_url_trailing_slash(self, client: AsyncMiru) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1403,10 +1381,8 @@ class TestAsyncMiruServer:
     @pytest.mark.parametrize(
         "client",
         [
-            AsyncMiruServer(
-                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
-            ),
-            AsyncMiruServer(
+            AsyncMiru(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
+            AsyncMiru(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -1415,7 +1391,7 @@ class TestAsyncMiruServer:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_base_url_no_trailing_slash(self, client: AsyncMiruServer) -> None:
+    def test_base_url_no_trailing_slash(self, client: AsyncMiru) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1428,10 +1404,8 @@ class TestAsyncMiruServer:
     @pytest.mark.parametrize(
         "client",
         [
-            AsyncMiruServer(
-                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
-            ),
-            AsyncMiruServer(
+            AsyncMiru(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
+            AsyncMiru(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -1440,7 +1414,7 @@ class TestAsyncMiruServer:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_absolute_request_url(self, client: AsyncMiruServer) -> None:
+    def test_absolute_request_url(self, client: AsyncMiru) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1451,7 +1425,7 @@ class TestAsyncMiruServer:
         assert request.url == "https://myapi.com/foo"
 
     async def test_copied_client_does_not_close_http(self) -> None:
-        client = AsyncMiruServer(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = AsyncMiru(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not client.is_closed()
 
         copied = client.copy()
@@ -1463,7 +1437,7 @@ class TestAsyncMiruServer:
         assert not client.is_closed()
 
     async def test_client_context_manager(self) -> None:
-        client = AsyncMiruServer(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = AsyncMiru(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         async with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -1485,9 +1459,7 @@ class TestAsyncMiruServer:
 
     async def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
-            AsyncMiruServer(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None)
-            )
+            AsyncMiru(base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None))
 
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
@@ -1497,12 +1469,12 @@ class TestAsyncMiruServer:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = AsyncMiruServer(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        strict_client = AsyncMiru(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             await strict_client.get("/foo", cast_to=Model)
 
-        client = AsyncMiruServer(base_url=base_url, api_key=api_key, _strict_response_validation=False)
+        client = AsyncMiru(base_url=base_url, api_key=api_key, _strict_response_validation=False)
 
         response = await client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -1531,18 +1503,16 @@ class TestAsyncMiruServer:
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     @pytest.mark.asyncio
     async def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = AsyncMiruServer(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = AsyncMiru(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
         calculated = client._calculate_retry_timeout(remaining_retries, options, headers)
         assert calculated == pytest.approx(timeout, 0.5 * 0.875)  # pyright: ignore[reportUnknownMemberType]
 
-    @mock.patch("miru_server._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("miru._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    async def test_retrying_timeout_errors_doesnt_leak(
-        self, respx_mock: MockRouter, async_client: AsyncMiruServer
-    ) -> None:
+    async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, async_client: AsyncMiru) -> None:
         respx_mock.get("/config_instances/cfg_inst_123").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
@@ -1552,11 +1522,9 @@ class TestAsyncMiruServer:
 
         assert _get_open_connections(self.client) == 0
 
-    @mock.patch("miru_server._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("miru._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    async def test_retrying_status_errors_doesnt_leak(
-        self, respx_mock: MockRouter, async_client: AsyncMiruServer
-    ) -> None:
+    async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, async_client: AsyncMiru) -> None:
         respx_mock.get("/config_instances/cfg_inst_123").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
@@ -1566,13 +1534,13 @@ class TestAsyncMiruServer:
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("miru_server._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("miru._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
     @pytest.mark.parametrize("failure_mode", ["status", "exception"])
     async def test_retries_taken(
         self,
-        async_client: AsyncMiruServer,
+        async_client: AsyncMiru,
         failures_before_success: int,
         failure_mode: Literal["status", "exception"],
         respx_mock: MockRouter,
@@ -1598,11 +1566,11 @@ class TestAsyncMiruServer:
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("miru_server._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("miru._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
     async def test_omit_retry_count_header(
-        self, async_client: AsyncMiruServer, failures_before_success: int, respx_mock: MockRouter
+        self, async_client: AsyncMiru, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = async_client.with_options(max_retries=4)
 
@@ -1624,11 +1592,11 @@ class TestAsyncMiruServer:
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("miru_server._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("miru._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
     async def test_overwrite_retry_count_header(
-        self, async_client: AsyncMiruServer, failures_before_success: int, respx_mock: MockRouter
+        self, async_client: AsyncMiru, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = async_client.with_options(max_retries=4)
 
