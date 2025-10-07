@@ -30,8 +30,8 @@ from miru_server_sdk import Miru
 
 client = Miru(
     api_key=os.environ.get("MIRU_SERVER_API_KEY"),  # This is the default and can be omitted
-    # or 'production' | 'local'; defaults to "production".
-    environment="staging",
+    # or 'prod' | 'staging' | 'local'; defaults to "prod".
+    environment="uat",
 )
 
 config_instance = client.config_instances.retrieve(
@@ -56,8 +56,8 @@ from miru_server_sdk import AsyncMiru
 
 client = AsyncMiru(
     api_key=os.environ.get("MIRU_SERVER_API_KEY"),  # This is the default and can be omitted
-    # or 'production' | 'local'; defaults to "production".
-    environment="staging",
+    # or 'prod' | 'staging' | 'local'; defaults to "prod".
+    environment="uat",
 )
 
 

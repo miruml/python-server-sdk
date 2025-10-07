@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.0 (2025-10-07)
+
+Full Changelog: [v0.4.1...v0.5.0](https://github.com/miruml/python-server-sdk/compare/v0.4.1...v0.5.0)
+
+### Features
+
+* **api:** uat environment ([67e2b55](https://github.com/miruml/python-server-sdk/commit/67e2b5530fadfbd61d67e85d4fc5b4c363558fd9))
+
 ## 0.4.1 (2025-10-05)
 
 Full Changelog: [v0.4.1-beta.3...v0.4.1](https://github.com/miruml/python-server-sdk/compare/v0.4.1-beta.3...v0.4.1)
