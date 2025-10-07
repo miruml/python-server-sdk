@@ -43,7 +43,8 @@ __all__ = [
 ]
 
 ENVIRONMENTS: Dict[str, str] = {
-    "production": "https://configs.api.miruml.com/v1",
+    "prod": "https://configs.api.miruml.com/v1",
+    "uat": "https://uat.api.miruml.com/v1",
     "staging": "https://configs.dev.api.miruml.com/v1",
     "local": "http://localhost:8080/v1",
 }
@@ -63,7 +64,7 @@ class Miru(SyncAPIClient):
     host: str
     version: str
 
-    _environment: Literal["production", "staging", "local"] | NotGiven
+    _environment: Literal["prod", "uat", "staging", "local"] | NotGiven
 
     def __init__(
         self,
@@ -71,7 +72,7 @@ class Miru(SyncAPIClient):
         api_key: str | None = None,
         host: str | None = None,
         version: str | None = None,
-        environment: Literal["production", "staging", "local"] | NotGiven = not_given,
+        environment: Literal["prod", "uat", "staging", "local"] | NotGiven = not_given,
         base_url: str | httpx.URL | None | NotGiven = not_given,
         timeout: float | Timeout | None | NotGiven = not_given,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -133,7 +134,7 @@ class Miru(SyncAPIClient):
         elif base_url_env is not None:
             base_url = base_url_env
         else:
-            self._environment = environment = "production"
+            self._environment = environment = "prod"
 
             try:
                 base_url = ENVIRONMENTS[environment]
@@ -185,7 +186,7 @@ class Miru(SyncAPIClient):
         api_key: str | None = None,
         host: str | None = None,
         version: str | None = None,
-        environment: Literal["production", "staging", "local"] | None = None,
+        environment: Literal["prod", "uat", "staging", "local"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
         http_client: httpx.Client | None = None,
@@ -284,7 +285,7 @@ class AsyncMiru(AsyncAPIClient):
     host: str
     version: str
 
-    _environment: Literal["production", "staging", "local"] | NotGiven
+    _environment: Literal["prod", "uat", "staging", "local"] | NotGiven
 
     def __init__(
         self,
@@ -292,7 +293,7 @@ class AsyncMiru(AsyncAPIClient):
         api_key: str | None = None,
         host: str | None = None,
         version: str | None = None,
-        environment: Literal["production", "staging", "local"] | NotGiven = not_given,
+        environment: Literal["prod", "uat", "staging", "local"] | NotGiven = not_given,
         base_url: str | httpx.URL | None | NotGiven = not_given,
         timeout: float | Timeout | None | NotGiven = not_given,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -354,7 +355,7 @@ class AsyncMiru(AsyncAPIClient):
         elif base_url_env is not None:
             base_url = base_url_env
         else:
-            self._environment = environment = "production"
+            self._environment = environment = "prod"
 
             try:
                 base_url = ENVIRONMENTS[environment]
@@ -406,7 +407,7 @@ class AsyncMiru(AsyncAPIClient):
         api_key: str | None = None,
         host: str | None = None,
         version: str | None = None,
-        environment: Literal["production", "staging", "local"] | None = None,
+        environment: Literal["prod", "uat", "staging", "local"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
         http_client: httpx.AsyncClient | None = None,
