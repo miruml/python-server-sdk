@@ -6,7 +6,6 @@ Types:
 from miru_server_sdk.types import (
     ConfigInstance,
     ConfigSchema,
-    ConfigSchemaList,
     ConfigType,
     PaginatedList,
     ConfigInstanceListResponse,

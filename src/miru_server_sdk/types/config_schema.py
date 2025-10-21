@@ -1,12 +1,11 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from __future__ import annotations
-
 from typing import Optional
 from datetime import datetime
 from typing_extensions import Literal
 
 from .._models import BaseModel
+from .config_type import ConfigType
 
 __all__ = ["ConfigSchema"]
 
@@ -15,7 +14,7 @@ class ConfigSchema(BaseModel):
     id: str
     """ID of the config schema."""
 
-    config_type: Optional["ConfigType"] = None
+    config_type: Optional[ConfigType] = None
     """Expand the config type using 'expand[]=config_type' in the query string."""
 
     config_type_id: str
@@ -44,6 +43,3 @@ class ConfigSchema(BaseModel):
 
     version: int
     """Config schema version for the config type."""
-
-
-from .config_type import ConfigType

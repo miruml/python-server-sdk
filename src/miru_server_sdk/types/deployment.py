@@ -1,13 +1,13 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from __future__ import annotations
-
 from typing import List, Optional
 from datetime import datetime
 from typing_extensions import Literal
 
 from .device import Device
+from .release import Release
 from .._models import BaseModel
+from .config_instance import ConfigInstance
 
 __all__ = ["Deployment"]
 
@@ -32,7 +32,7 @@ class Deployment(BaseModel):
       deployed and is not active on the device
     """
 
-    config_instances: Optional[List["ConfigInstance"]] = None
+    config_instances: Optional[List[ConfigInstance]] = None
     """
     Expand the config instances using 'expand[]=config_instances' in the query
     string.
@@ -62,7 +62,7 @@ class Deployment(BaseModel):
 
     object: Literal["deployment"]
 
-    release: Optional["Release"] = None
+    release: Optional[Release] = None
     """Expand the release using 'expand[]=release' in the query string."""
 
     release_id: str
@@ -91,7 +91,3 @@ class Deployment(BaseModel):
 
     updated_at: datetime
     """Timestamp of when the device release was last updated."""
-
-
-from .release import Release
-from .config_instance import ConfigInstance
