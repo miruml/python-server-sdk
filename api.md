@@ -6,7 +6,6 @@ Types:
 from miru_server_sdk.types import (
     ConfigInstance,
     ConfigSchema,
-    ConfigSchemaList,
     ConfigType,
     PaginatedList,
     ConfigInstanceListResponse,
@@ -73,5 +72,5 @@ Methods:
 Types:
 
 ```python
-from miru_server_sdk.types import DeploymentValidateWebhookEvent, UnwrapWebhookEvent
+from miru_server_sdk.types import UnwrapWebhookEvent
 ```
