@@ -12,7 +12,7 @@ class DeploymentListParams(TypedDict, total=False):
     id: str
     """The deployment ID to filter by."""
 
-    activity_status: Literal["validating", "pending", "approved", "queued", "deployed", "removing", "archived"]
+    activity_status: Literal["validating", "needs_review", "staged", "queued", "deployed", "removing", "archived"]
     """The deployment activity status to filter by."""
 
     device_id: str
@@ -41,5 +41,5 @@ class DeploymentListParams(TypedDict, total=False):
     release_id: str
     """The deployment release ID to filter by."""
 
-    target_status: Literal["pending", "approved", "deployed", "archived"]
+    target_status: Literal["staged", "deployed", "archived"]
     """The deployment target status to filter by."""
