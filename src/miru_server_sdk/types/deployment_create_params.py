@@ -27,13 +27,11 @@ class DeploymentCreateParams(TypedDict, total=False):
     release_id: Required[str]
     """The release ID which this deployment adheres to."""
 
-    target_status: Required[Literal["pending", "approved", "deployed"]]
+    target_status: Required[Literal["staged", "deployed"]]
     """Desired state of the deployment.
 
-    - Pending: staged for deployment but not yet approved. Deployments can only be
-      staged if their release is not the current release for the device.
-    - Approved: staged and approved for deployment. Deployments can only be staged
-      if their release is not the current release for the device.
+    - Staged: ready for deployment. Deployments can only be staged if their release
+      is not the current release for the device.
     - Deployed: deployed to the device. Deployments can only be deployed if their
       release is the device's current release.
 

@@ -16,14 +16,13 @@ class Deployment(BaseModel):
     id: str
     """ID of the deployment."""
 
-    activity_status: Literal["validating", "pending", "approved", "queued", "deployed", "removing", "archived"]
+    activity_status: Literal["validating", "needs_review", "staged", "queued", "deployed", "removing", "archived"]
     """Last known activity state of the deployment.
 
     - Validating: the deployment's config instances are being validated with user's
       custom validation
-    - Pending: staged for deployment but not yet approved; requires approval for
-      deployment to occur
-    - Approved: staged and approved for deployment
+    - Needs review: deployment needs to be reviewed before it can be deployed
+    - Staged: is ready to be deployed
     - Queued: the deployment's config instances are waiting to be received by the
       device; will be deployed as soon as the device is online
     - Deployed: the deployment's config instances are currently available for
@@ -70,7 +69,7 @@ class Deployment(BaseModel):
     """The version of the release."""
 
     status: Literal[
-        "validating", "pending", "approved", "queued", "deployed", "removing", "archived", "failed", "retrying"
+        "validating", "needs_review", "staged", "queued", "deployed", "removing", "archived", "failed", "retrying"
     ]
     """
     This status merges the 'activity_status' and 'error_status' fields, with error
@@ -80,12 +79,10 @@ class Deployment(BaseModel):
     status is 'deployed', the status is 'deployed'.
     """
 
-    target_status: Literal["pending", "approved", "deployed", "archived"]
+    target_status: Literal["staged", "deployed", "archived"]
     """Desired state of the deployment.
 
-    - Pending: staged for deployment but not yet approved; requires approval for
-      deployment to occur
-    - Approved: staged and approved for deployment
+    - Staged: is ready to be deployed
     - Deployed: all config instances part of the deployment are available for
       consumption on the device
     - Archived: the deployment is available for historical reference but cannot be

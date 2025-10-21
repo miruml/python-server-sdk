@@ -58,7 +58,7 @@ class DeploymentsResource(SyncAPIResource):
         device_id: str,
         new_config_instances: Iterable[deployment_create_params.NewConfigInstance],
         release_id: str,
-        target_status: Literal["pending", "approved", "deployed"],
+        target_status: Literal["staged", "deployed"],
         expand: List[Literal["device", "release", "config_instances"]] | Omit = omit,
         patch_source_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -86,10 +86,8 @@ class DeploymentsResource(SyncAPIResource):
 
           target_status: Desired state of the deployment.
 
-              - Pending: staged for deployment but not yet approved. Deployments can only be
-                staged if their release is not the current release for the device.
-              - Approved: staged and approved for deployment. Deployments can only be staged
-                if their release is not the current release for the device.
+              - Staged: ready for deployment. Deployments can only be staged if their release
+                is not the current release for the device.
               - Deployed: deployed to the device. Deployments can only be deployed if their
                 release is the device's current release.
 
@@ -175,7 +173,7 @@ class DeploymentsResource(SyncAPIResource):
         self,
         *,
         id: str | Omit = omit,
-        activity_status: Literal["validating", "pending", "approved", "queued", "deployed", "removing", "archived"]
+        activity_status: Literal["validating", "needs_review", "staged", "queued", "deployed", "removing", "archived"]
         | Omit = omit,
         device_id: str | Omit = omit,
         error_status: Literal["none", "failed", "retrying"] | Omit = omit,
@@ -184,7 +182,7 @@ class DeploymentsResource(SyncAPIResource):
         offset: int | Omit = omit,
         order_by: Literal["id:asc", "id:desc", "created_at:desc", "created_at:asc"] | Omit = omit,
         release_id: str | Omit = omit,
-        target_status: Literal["pending", "approved", "deployed", "archived"] | Omit = omit,
+        target_status: Literal["staged", "deployed", "archived"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -329,7 +327,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
         device_id: str,
         new_config_instances: Iterable[deployment_create_params.NewConfigInstance],
         release_id: str,
-        target_status: Literal["pending", "approved", "deployed"],
+        target_status: Literal["staged", "deployed"],
         expand: List[Literal["device", "release", "config_instances"]] | Omit = omit,
         patch_source_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -357,10 +355,8 @@ class AsyncDeploymentsResource(AsyncAPIResource):
 
           target_status: Desired state of the deployment.
 
-              - Pending: staged for deployment but not yet approved. Deployments can only be
-                staged if their release is not the current release for the device.
-              - Approved: staged and approved for deployment. Deployments can only be staged
-                if their release is not the current release for the device.
+              - Staged: ready for deployment. Deployments can only be staged if their release
+                is not the current release for the device.
               - Deployed: deployed to the device. Deployments can only be deployed if their
                 release is the device's current release.
 
@@ -448,7 +444,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
         self,
         *,
         id: str | Omit = omit,
-        activity_status: Literal["validating", "pending", "approved", "queued", "deployed", "removing", "archived"]
+        activity_status: Literal["validating", "needs_review", "staged", "queued", "deployed", "removing", "archived"]
         | Omit = omit,
         device_id: str | Omit = omit,
         error_status: Literal["none", "failed", "retrying"] | Omit = omit,
@@ -457,7 +453,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
         offset: int | Omit = omit,
         order_by: Literal["id:asc", "id:desc", "created_at:desc", "created_at:asc"] | Omit = omit,
         release_id: str | Omit = omit,
-        target_status: Literal["pending", "approved", "deployed", "archived"] | Omit = omit,
+        target_status: Literal["staged", "deployed", "archived"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,

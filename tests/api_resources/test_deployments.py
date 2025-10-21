@@ -39,7 +39,7 @@ class TestDeployments:
                 }
             ],
             release_id="rls_123",
-            target_status="pending",
+            target_status="staged",
         )
         assert_matches_type(Deployment, deployment, path=["response"])
 
@@ -61,7 +61,7 @@ class TestDeployments:
                 }
             ],
             release_id="rls_123",
-            target_status="pending",
+            target_status="staged",
             expand=["device"],
             patch_source_id="dpl_123",
         )
@@ -85,7 +85,7 @@ class TestDeployments:
                 }
             ],
             release_id="rls_123",
-            target_status="pending",
+            target_status="staged",
         )
 
         assert response.is_closed is True
@@ -111,7 +111,7 @@ class TestDeployments:
                 }
             ],
             release_id="rls_123",
-            target_status="pending",
+            target_status="staged",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -191,7 +191,7 @@ class TestDeployments:
             offset=0,
             order_by="id:asc",
             release_id="rls_123",
-            target_status="pending",
+            target_status="staged",
         )
         assert_matches_type(DeploymentListResponse, deployment, path=["response"])
 
@@ -339,7 +339,7 @@ class TestAsyncDeployments:
                 }
             ],
             release_id="rls_123",
-            target_status="pending",
+            target_status="staged",
         )
         assert_matches_type(Deployment, deployment, path=["response"])
 
@@ -361,7 +361,7 @@ class TestAsyncDeployments:
                 }
             ],
             release_id="rls_123",
-            target_status="pending",
+            target_status="staged",
             expand=["device"],
             patch_source_id="dpl_123",
         )
@@ -385,7 +385,7 @@ class TestAsyncDeployments:
                 }
             ],
             release_id="rls_123",
-            target_status="pending",
+            target_status="staged",
         )
 
         assert response.is_closed is True
@@ -411,7 +411,7 @@ class TestAsyncDeployments:
                 }
             ],
             release_id="rls_123",
-            target_status="pending",
+            target_status="staged",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -491,7 +491,7 @@ class TestAsyncDeployments:
             offset=0,
             order_by="id:asc",
             release_id="rls_123",
-            target_status="pending",
+            target_status="staged",
         )
         assert_matches_type(DeploymentListResponse, deployment, path=["response"])
 
