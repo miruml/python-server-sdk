@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.6.2 (2025-10-31)
+
+Full Changelog: [v0.6.1...v0.6.2](https://github.com/miruml/python-server-sdk/compare/v0.6.1...v0.6.2)
+
+### Bug Fixes
+
+* **client:** close streams without requiring full consumption ([c50bca7](https://github.com/miruml/python-server-sdk/commit/c50bca723dc9398bf97d9db9d881f8090b9deef0))
+
+
+### Chores
+
+* **internal/tests:** avoid race condition with implicit client cleanup ([445023e](https://github.com/miruml/python-server-sdk/commit/445023e773a89e857f47d1ca9fb61f0c1f6fde7b))
+
 ## 0.6.1 (2025-10-21)
 
 Full Changelog: [v0.6.0...v0.6.1](https://github.com/miruml/python-server-sdk/compare/v0.6.0...v0.6.1)
