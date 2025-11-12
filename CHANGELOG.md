@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.6.2 (2025-11-12)
+
+Full Changelog: [v0.6.1...v0.6.2](https://github.com/miruml/python-server-sdk/compare/v0.6.1...v0.6.2)
+
+### Bug Fixes
+
+* **client:** close streams without requiring full consumption ([c50bca7](https://github.com/miruml/python-server-sdk/commit/c50bca723dc9398bf97d9db9d881f8090b9deef0))
+* compat with Python 3.14 ([6e10abe](https://github.com/miruml/python-server-sdk/commit/6e10abeb80e20e1d64eb9e1d251bd2d426ed62ad))
+
+
+### Chores
+
+* **internal/tests:** avoid race condition with implicit client cleanup ([445023e](https://github.com/miruml/python-server-sdk/commit/445023e773a89e857f47d1ca9fb61f0c1f6fde7b))
+* **internal:** grammar fix (it's -&gt; its) ([5c82d3a](https://github.com/miruml/python-server-sdk/commit/5c82d3a7b9f90620c68e850441cbd204d475e8d0))
+* **package:** drop Python 3.8 support ([80b7c35](https://github.com/miruml/python-server-sdk/commit/80b7c35b8dbe72ecf05cca08217b934eb8bef3a5))
+
 ## 0.6.1 (2025-10-21)
 
 Full Changelog: [v0.6.0...v0.6.1](https://github.com/miruml/python-server-sdk/compare/v0.6.0...v0.6.1)
