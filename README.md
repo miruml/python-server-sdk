@@ -87,6 +87,7 @@ pip install miru_server_sdk[aiohttp]
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
 ```python
+import os
 import asyncio
 from miru_server_sdk import DefaultAioHttpClient
 from miru_server_sdk import AsyncMiru
@@ -94,7 +95,7 @@ from miru_server_sdk import AsyncMiru
 
 async def main() -> None:
     async with AsyncMiru(
-        api_key="My API Key",
+        api_key=os.environ.get("MIRU_SERVER_API_KEY"),  # This is the default and can be omitted
         http_client=DefaultAioHttpClient(),
     ) as client:
         config_instance = await client.config_instances.retrieve(
