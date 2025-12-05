@@ -43,10 +43,10 @@ __all__ = [
 ]
 
 ENVIRONMENTS: Dict[str, str] = {
-    "prod": "https://configs.api.miruml.com/v1",
-    "uat": "https://uat.api.miruml.com/v1",
-    "staging": "https://configs.dev.api.miruml.com/v1",
-    "local": "http://localhost:8080/v1",
+    "prod": "https://configs.api.miruml.com/beta",
+    "uat": "https://uat.api.miruml.com/beta",
+    "staging": "https://configs.dev.api.miruml.com/beta",
+    "local": "http://localhost:8080/beta",
 }
 
 
