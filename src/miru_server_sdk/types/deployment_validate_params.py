@@ -25,6 +25,8 @@ class DeploymentValidateParams(TypedDict, total=False):
 
 
 class ConfigInstanceParameter(TypedDict, total=False):
+    """The validation error for a parameter in the config instance."""
+
     message: Required[str]
     """An error message displayed for an individual parameter."""
 
@@ -33,6 +35,8 @@ class ConfigInstanceParameter(TypedDict, total=False):
 
 
 class ConfigInstance(TypedDict, total=False):
+    """The validation errors(s) for a specific config instance in the deployment."""
+
     id: Required[str]
     """ID of the config instance."""
 
