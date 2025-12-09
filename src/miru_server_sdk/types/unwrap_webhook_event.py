@@ -25,6 +25,8 @@ class DataDeployment(BaseModel):
 
 
 class Data(BaseModel):
+    """The data associated with the event"""
+
     deployment: DataDeployment
 
 
