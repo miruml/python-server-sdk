@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Dict, Mapping, cast
+from typing import TYPE_CHECKING, Any, Dict, Mapping, cast
 from typing_extensions import Self, Literal, override
 
 import httpx
@@ -20,8 +20,8 @@ from ._types import (
     not_given,
 )
 from ._utils import is_given, get_async_library
+from ._compat import cached_property
 from ._version import __version__
-from .resources import devices, releases, webhooks, deployments, config_instances
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import MiruError, APIStatusError
 from ._base_client import (
@@ -29,6 +29,14 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
+
+if TYPE_CHECKING:
+    from .resources import devices, releases, deployments, config_instances
+    from .resources.devices import DevicesResource, AsyncDevicesResource
+    from .resources.releases import ReleasesResource, AsyncReleasesResource
+    from .resources.webhooks import WebhooksResource, AsyncWebhooksResource
+    from .resources.deployments import DeploymentsResource, AsyncDeploymentsResource
+    from .resources.config_instances import ConfigInstancesResource, AsyncConfigInstancesResource
 
 __all__ = [
     "ENVIRONMENTS",
@@ -51,14 +59,6 @@ ENVIRONMENTS: Dict[str, str] = {
 
 
 class Miru(SyncAPIClient):
-    config_instances: config_instances.ConfigInstancesResource
-    deployments: deployments.DeploymentsResource
-    devices: devices.DevicesResource
-    releases: releases.ReleasesResource
-    webhooks: webhooks.WebhooksResource
-    with_raw_response: MiruWithRawResponse
-    with_streaming_response: MiruWithStreamedResponse
-
     # client options
     api_key: str
     host: str
@@ -152,13 +152,43 @@ class Miru(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.config_instances = config_instances.ConfigInstancesResource(self)
-        self.deployments = deployments.DeploymentsResource(self)
-        self.devices = devices.DevicesResource(self)
-        self.releases = releases.ReleasesResource(self)
-        self.webhooks = webhooks.WebhooksResource(self)
-        self.with_raw_response = MiruWithRawResponse(self)
-        self.with_streaming_response = MiruWithStreamedResponse(self)
+    @cached_property
+    def config_instances(self) -> ConfigInstancesResource:
+        from .resources.config_instances import ConfigInstancesResource
+
+        return ConfigInstancesResource(self)
+
+    @cached_property
+    def deployments(self) -> DeploymentsResource:
+        from .resources.deployments import DeploymentsResource
+
+        return DeploymentsResource(self)
+
+    @cached_property
+    def devices(self) -> DevicesResource:
+        from .resources.devices import DevicesResource
+
+        return DevicesResource(self)
+
+    @cached_property
+    def releases(self) -> ReleasesResource:
+        from .resources.releases import ReleasesResource
+
+        return ReleasesResource(self)
+
+    @cached_property
+    def webhooks(self) -> WebhooksResource:
+        from .resources.webhooks import WebhooksResource
+
+        return WebhooksResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> MiruWithRawResponse:
+        return MiruWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> MiruWithStreamedResponse:
+        return MiruWithStreamedResponse(self)
 
     @property
     @override
@@ -272,14 +302,6 @@ class Miru(SyncAPIClient):
 
 
 class AsyncMiru(AsyncAPIClient):
-    config_instances: config_instances.AsyncConfigInstancesResource
-    deployments: deployments.AsyncDeploymentsResource
-    devices: devices.AsyncDevicesResource
-    releases: releases.AsyncReleasesResource
-    webhooks: webhooks.AsyncWebhooksResource
-    with_raw_response: AsyncMiruWithRawResponse
-    with_streaming_response: AsyncMiruWithStreamedResponse
-
     # client options
     api_key: str
     host: str
@@ -373,13 +395,43 @@ class AsyncMiru(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.config_instances = config_instances.AsyncConfigInstancesResource(self)
-        self.deployments = deployments.AsyncDeploymentsResource(self)
-        self.devices = devices.AsyncDevicesResource(self)
-        self.releases = releases.AsyncReleasesResource(self)
-        self.webhooks = webhooks.AsyncWebhooksResource(self)
-        self.with_raw_response = AsyncMiruWithRawResponse(self)
-        self.with_streaming_response = AsyncMiruWithStreamedResponse(self)
+    @cached_property
+    def config_instances(self) -> AsyncConfigInstancesResource:
+        from .resources.config_instances import AsyncConfigInstancesResource
+
+        return AsyncConfigInstancesResource(self)
+
+    @cached_property
+    def deployments(self) -> AsyncDeploymentsResource:
+        from .resources.deployments import AsyncDeploymentsResource
+
+        return AsyncDeploymentsResource(self)
+
+    @cached_property
+    def devices(self) -> AsyncDevicesResource:
+        from .resources.devices import AsyncDevicesResource
+
+        return AsyncDevicesResource(self)
+
+    @cached_property
+    def releases(self) -> AsyncReleasesResource:
+        from .resources.releases import AsyncReleasesResource
+
+        return AsyncReleasesResource(self)
+
+    @cached_property
+    def webhooks(self) -> AsyncWebhooksResource:
+        from .resources.webhooks import AsyncWebhooksResource
+
+        return AsyncWebhooksResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> AsyncMiruWithRawResponse:
+        return AsyncMiruWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncMiruWithStreamedResponse:
+        return AsyncMiruWithStreamedResponse(self)
 
     @property
     @override
@@ -493,37 +545,127 @@ class AsyncMiru(AsyncAPIClient):
 
 
 class MiruWithRawResponse:
+    _client: Miru
+
     def __init__(self, client: Miru) -> None:
-        self.config_instances = config_instances.ConfigInstancesResourceWithRawResponse(client.config_instances)
-        self.deployments = deployments.DeploymentsResourceWithRawResponse(client.deployments)
-        self.devices = devices.DevicesResourceWithRawResponse(client.devices)
-        self.releases = releases.ReleasesResourceWithRawResponse(client.releases)
+        self._client = client
+
+    @cached_property
+    def config_instances(self) -> config_instances.ConfigInstancesResourceWithRawResponse:
+        from .resources.config_instances import ConfigInstancesResourceWithRawResponse
+
+        return ConfigInstancesResourceWithRawResponse(self._client.config_instances)
+
+    @cached_property
+    def deployments(self) -> deployments.DeploymentsResourceWithRawResponse:
+        from .resources.deployments import DeploymentsResourceWithRawResponse
+
+        return DeploymentsResourceWithRawResponse(self._client.deployments)
+
+    @cached_property
+    def devices(self) -> devices.DevicesResourceWithRawResponse:
+        from .resources.devices import DevicesResourceWithRawResponse
+
+        return DevicesResourceWithRawResponse(self._client.devices)
+
+    @cached_property
+    def releases(self) -> releases.ReleasesResourceWithRawResponse:
+        from .resources.releases import ReleasesResourceWithRawResponse
+
+        return ReleasesResourceWithRawResponse(self._client.releases)
 
 
 class AsyncMiruWithRawResponse:
+    _client: AsyncMiru
+
     def __init__(self, client: AsyncMiru) -> None:
-        self.config_instances = config_instances.AsyncConfigInstancesResourceWithRawResponse(client.config_instances)
-        self.deployments = deployments.AsyncDeploymentsResourceWithRawResponse(client.deployments)
-        self.devices = devices.AsyncDevicesResourceWithRawResponse(client.devices)
-        self.releases = releases.AsyncReleasesResourceWithRawResponse(client.releases)
+        self._client = client
+
+    @cached_property
+    def config_instances(self) -> config_instances.AsyncConfigInstancesResourceWithRawResponse:
+        from .resources.config_instances import AsyncConfigInstancesResourceWithRawResponse
+
+        return AsyncConfigInstancesResourceWithRawResponse(self._client.config_instances)
+
+    @cached_property
+    def deployments(self) -> deployments.AsyncDeploymentsResourceWithRawResponse:
+        from .resources.deployments import AsyncDeploymentsResourceWithRawResponse
+
+        return AsyncDeploymentsResourceWithRawResponse(self._client.deployments)
+
+    @cached_property
+    def devices(self) -> devices.AsyncDevicesResourceWithRawResponse:
+        from .resources.devices import AsyncDevicesResourceWithRawResponse
+
+        return AsyncDevicesResourceWithRawResponse(self._client.devices)
+
+    @cached_property
+    def releases(self) -> releases.AsyncReleasesResourceWithRawResponse:
+        from .resources.releases import AsyncReleasesResourceWithRawResponse
+
+        return AsyncReleasesResourceWithRawResponse(self._client.releases)
 
 
 class MiruWithStreamedResponse:
+    _client: Miru
+
     def __init__(self, client: Miru) -> None:
-        self.config_instances = config_instances.ConfigInstancesResourceWithStreamingResponse(client.config_instances)
-        self.deployments = deployments.DeploymentsResourceWithStreamingResponse(client.deployments)
-        self.devices = devices.DevicesResourceWithStreamingResponse(client.devices)
-        self.releases = releases.ReleasesResourceWithStreamingResponse(client.releases)
+        self._client = client
+
+    @cached_property
+    def config_instances(self) -> config_instances.ConfigInstancesResourceWithStreamingResponse:
+        from .resources.config_instances import ConfigInstancesResourceWithStreamingResponse
+
+        return ConfigInstancesResourceWithStreamingResponse(self._client.config_instances)
+
+    @cached_property
+    def deployments(self) -> deployments.DeploymentsResourceWithStreamingResponse:
+        from .resources.deployments import DeploymentsResourceWithStreamingResponse
+
+        return DeploymentsResourceWithStreamingResponse(self._client.deployments)
+
+    @cached_property
+    def devices(self) -> devices.DevicesResourceWithStreamingResponse:
+        from .resources.devices import DevicesResourceWithStreamingResponse
+
+        return DevicesResourceWithStreamingResponse(self._client.devices)
+
+    @cached_property
+    def releases(self) -> releases.ReleasesResourceWithStreamingResponse:
+        from .resources.releases import ReleasesResourceWithStreamingResponse
+
+        return ReleasesResourceWithStreamingResponse(self._client.releases)
 
 
 class AsyncMiruWithStreamedResponse:
+    _client: AsyncMiru
+
     def __init__(self, client: AsyncMiru) -> None:
-        self.config_instances = config_instances.AsyncConfigInstancesResourceWithStreamingResponse(
-            client.config_instances
-        )
-        self.deployments = deployments.AsyncDeploymentsResourceWithStreamingResponse(client.deployments)
-        self.devices = devices.AsyncDevicesResourceWithStreamingResponse(client.devices)
-        self.releases = releases.AsyncReleasesResourceWithStreamingResponse(client.releases)
+        self._client = client
+
+    @cached_property
+    def config_instances(self) -> config_instances.AsyncConfigInstancesResourceWithStreamingResponse:
+        from .resources.config_instances import AsyncConfigInstancesResourceWithStreamingResponse
+
+        return AsyncConfigInstancesResourceWithStreamingResponse(self._client.config_instances)
+
+    @cached_property
+    def deployments(self) -> deployments.AsyncDeploymentsResourceWithStreamingResponse:
+        from .resources.deployments import AsyncDeploymentsResourceWithStreamingResponse
+
+        return AsyncDeploymentsResourceWithStreamingResponse(self._client.deployments)
+
+    @cached_property
+    def devices(self) -> devices.AsyncDevicesResourceWithStreamingResponse:
+        from .resources.devices import AsyncDevicesResourceWithStreamingResponse
+
+        return AsyncDevicesResourceWithStreamingResponse(self._client.devices)
+
+    @cached_property
+    def releases(self) -> releases.AsyncReleasesResourceWithStreamingResponse:
+        from .resources.releases import AsyncReleasesResourceWithStreamingResponse
+
+        return AsyncReleasesResourceWithStreamingResponse(self._client.releases)
 
 
 Client = Miru
