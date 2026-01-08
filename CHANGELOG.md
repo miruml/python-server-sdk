@@ -1,5 +1,43 @@
 # Changelog
 
+## 0.7.0 (2026-01-08)
+
+Full Changelog: [v0.6.1...v0.7.0](https://github.com/mirurobotics/python-server-sdk/compare/v0.6.1...v0.7.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** change route to be /beta instead of /v1
+
+### Bug Fixes
+
+* **client:** close streams without requiring full consumption ([c50bca7](https://github.com/mirurobotics/python-server-sdk/commit/c50bca723dc9398bf97d9db9d881f8090b9deef0))
+* compat with Python 3.14 ([6e10abe](https://github.com/mirurobotics/python-server-sdk/commit/6e10abeb80e20e1d64eb9e1d251bd2d426ed62ad))
+* **compat:** update signatures of `model_dump` and `model_dump_json` for Pydantic v1 ([b71ebf9](https://github.com/mirurobotics/python-server-sdk/commit/b71ebf96149950711b88780da4dce30a1e250e02))
+* ensure streams are always closed ([ab93bca](https://github.com/mirurobotics/python-server-sdk/commit/ab93bca51d143a6e8d26a05947e538d15ee751ea))
+* **types:** allow pyright to infer TypedDict types within SequenceNotStr ([7769f80](https://github.com/mirurobotics/python-server-sdk/commit/7769f807b07bc2d6b611766e1e5d4545289d558d))
+* use async_to_httpx_files in patch method ([4c68967](https://github.com/mirurobotics/python-server-sdk/commit/4c6896709773ce6fee0641f107ab0c7364f9716d))
+
+
+### Chores
+
+* add missing docstrings ([37f1eae](https://github.com/mirurobotics/python-server-sdk/commit/37f1eae5abbe16ad18e05bdf8bfa47509304c7ee))
+* add Python 3.14 classifier and testing ([6df3ecd](https://github.com/mirurobotics/python-server-sdk/commit/6df3ecd00b28abb16c06cae6c13b8728445ace6a))
+* **deps:** mypy 1.18.1 has a regression, pin to 1.17 ([d644966](https://github.com/mirurobotics/python-server-sdk/commit/d644966063e8b3e17ca407ad4062be2874e07878))
+* **docs:** use environment variables for authentication in code snippets ([ee97b11](https://github.com/mirurobotics/python-server-sdk/commit/ee97b11addd6b183e49a28d6ccbc7cb73b9247dd))
+* **internal/tests:** avoid race condition with implicit client cleanup ([445023e](https://github.com/mirurobotics/python-server-sdk/commit/445023e773a89e857f47d1ca9fb61f0c1f6fde7b))
+* **internal:** add `--fix` argument to lint script ([22cd02f](https://github.com/mirurobotics/python-server-sdk/commit/22cd02f5f184a085b365aca7c1f1f6959be0fbcb))
+* **internal:** add missing files argument to base client ([1d7820f](https://github.com/mirurobotics/python-server-sdk/commit/1d7820f56b688e75988288e86b2a6eb62657681f))
+* **internal:** grammar fix (it's -&gt; its) ([5c82d3a](https://github.com/mirurobotics/python-server-sdk/commit/5c82d3a7b9f90620c68e850441cbd204d475e8d0))
+* **package:** drop Python 3.8 support ([80b7c35](https://github.com/mirurobotics/python-server-sdk/commit/80b7c35b8dbe72ecf05cca08217b934eb8bef3a5))
+* speedup initial import ([4ebe231](https://github.com/mirurobotics/python-server-sdk/commit/4ebe2315fe940766e2888b4cda52c7d9799e6132))
+* update lockfile ([f840597](https://github.com/mirurobotics/python-server-sdk/commit/f8405973872ef23e5294cf061d7794497e15a1ec))
+
+
+### Refactors
+
+* **api:** api domain from miruml to mirurobotics ([c4127dd](https://github.com/mirurobotics/python-server-sdk/commit/c4127dd3a6e14e10757ea6f29929370231c1ceaf))
+* **api:** change route to be /beta instead of /v1 ([6b7bd87](https://github.com/mirurobotics/python-server-sdk/commit/6b7bd87fd125f8ac6205af2d289e75036df693e4))
+
 ## 0.6.1 (2025-10-21)
 
 Full Changelog: [v0.6.0...v0.6.1](https://github.com/miruml/python-server-sdk/compare/v0.6.0...v0.6.1)
