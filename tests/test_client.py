@@ -572,7 +572,7 @@ class TestMiru:
                 Miru(api_key=api_key, _strict_response_validation=True, environment="prod")
 
             client = Miru(base_url=None, api_key=api_key, _strict_response_validation=True, environment="prod")
-            assert str(client.base_url).startswith("https://configs.api.miruml.com/beta")
+            assert str(client.base_url).startswith("https://api.mirurobotics.com/beta")
 
             client.close()
 
@@ -1405,7 +1405,7 @@ class TestAsyncMiru:
                 AsyncMiru(api_key=api_key, _strict_response_validation=True, environment="prod")
 
             client = AsyncMiru(base_url=None, api_key=api_key, _strict_response_validation=True, environment="prod")
-            assert str(client.base_url).startswith("https://configs.api.miruml.com/beta")
+            assert str(client.base_url).startswith("https://api.mirurobotics.com/beta")
 
             await client.close()
 

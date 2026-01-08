@@ -5,7 +5,7 @@ description = "The official Python library for the miru API"
 dynamic = ["readme"]
 license = "MIT"
 authors = [
-{ name = "Miru", email = "ben@miruml.com" },
+{ name = "Miru", email = "ben@mirurobotics.com" },
 ]
 
 dependencies = [
@@ -37,8 +37,8 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/miruml/python-server-sdk"
-Repository = "https://github.com/miruml/python-server-sdk"
+Homepage = "https://github.com/mirurobotics/python-server-sdk"
+Repository = "https://github.com/mirurobotics/python-server-sdk"
 
 [project.optional-dependencies]
 aiohttp = ["aiohttp", "httpx_aiohttp>=0.1.9"]
@@ -126,7 +126,7 @@ path = "README.md"
 [[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
 # replace relative links with absolute links
 pattern = '\[(.+?)\]\(((?!https?://)\S+?)\)'
-replacement = '[\1](https://github.com/miruml/python-server-sdk/tree/main/\g<2>)'
+replacement = '[\1](https://github.com/mirurobotics/python-server-sdk/tree/main/\g<2>)'
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

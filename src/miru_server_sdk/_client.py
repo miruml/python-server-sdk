@@ -51,9 +51,9 @@ __all__ = [
 ]
 
 ENVIRONMENTS: Dict[str, str] = {
-    "prod": "https://configs.api.miruml.com/beta",
-    "uat": "https://uat.api.miruml.com/beta",
-    "staging": "https://configs.dev.api.miruml.com/beta",
+    "prod": "https://api.mirurobotics.com/beta",
+    "uat": "https://uat.api.mirurobotics.com/beta",
+    "staging": "https://staging.api.mirurobotics.com/beta",
     "local": "http://localhost:8080/beta",
 }
 
@@ -108,7 +108,7 @@ class Miru(SyncAPIClient):
         self.api_key = api_key
 
         if host is None:
-            host = os.environ.get("MIRU_SERVER_HOST") or "configs.api.miruml.com"
+            host = os.environ.get("MIRU_SERVER_HOST") or "api.mirurobotics.com"
         self.host = host
 
         if version is None:
@@ -351,7 +351,7 @@ class AsyncMiru(AsyncAPIClient):
         self.api_key = api_key
 
         if host is None:
-            host = os.environ.get("MIRU_SERVER_HOST") or "configs.api.miruml.com"
+            host = os.environ.get("MIRU_SERVER_HOST") or "api.mirurobotics.com"
         self.host = host
 
         if version is None:
