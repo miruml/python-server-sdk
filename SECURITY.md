@@ -20,7 +20,7 @@ or products provided by Miru, please follow the respective company's security re
 
 ### Miru Terms and Policies
 
-Please contact ben@miruml.com for any questions or concerns regarding the security of our services.
+Please contact ben@mirurobotics.com for any questions or concerns regarding the security of our services.
 
 ---
 
